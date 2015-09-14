@@ -37,7 +37,7 @@ public class ClientApi {
 
     @ApiMethod(path = "create", httpMethod = HttpMethod.PUT)
     public APIResponse create(@Named("name") String name,
-                              @Nullable @Named("showStackTrace") Boolean showStackTrace, HttpServletRequest req) {
+                              @Nullable @Named("showStackTrace") Boolean showStackTrace, HttpServletRequest req, User user) {
 
         try {
             ClientProp clientProp = Client.create(name);

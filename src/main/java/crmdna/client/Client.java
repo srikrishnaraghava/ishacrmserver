@@ -1,18 +1,15 @@
 package crmdna.client;
 
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.Work;
 import crmdna.common.Constants;
 import crmdna.common.EmailConfig;
 import crmdna.common.Utils;
 import crmdna.common.api.APIException;
 import crmdna.common.api.APIResponse.Status;
-import crmdna.group.Group;
 import crmdna.mail2.Mandrill;
 import crmdna.user.User;
 import crmdna.user.User.ClientLevelPrivilege;
 import crmdna.user.UserCore;
-import crmdna.user.UserEntity;
 import crmdna.user.UserProp;
 
 import java.util.ArrayList;
@@ -110,64 +107,6 @@ public class Client {
             return;
 
         safeGet(client);
-    }
-
-    static void addUser(String client, String email) {
-        email = email.toLowerCase();
-
-        ClientEntity clientEntity = safeGet(client);
-
-        Ref<ClientEntity> clientRef = Ref.create(clientEntity);
-
-        CrmDnaUserEntity crmdnaUserEntity =
-                ofyCrmDna().load().type(CrmDnaUserEntity.class).id(email).now();
-
-        if (null == crmdnaUserEntity) {
-            crmdnaUserEntity = new CrmDnaUserEntity();
-            crmdnaUserEntity.email = email;
-            crmdnaUserEntity.clients.add(clientRef);
-        } else {
-            crmdnaUserEntity.clients.add(clientRef);
-        }
-
-        ofyCrmDna().save().entity(crmdnaUserEntity);
-
-        // add as a valid user in the client's namespace
-        UserEntity userEntity = ofy(client).load().type(UserEntity.class).id(email).now();
-
-        if (null == userEntity) {
-            userEntity = new UserEntity();
-            userEntity.email = email;
-            ofy(client).save().entity(userEntity);
-        }
-    }
-
-    static void deleteUser(String client, String email) {
-        email = email.toLowerCase();
-
-        ClientEntity clientEntity = safeGet(client);
-
-        Ref<ClientEntity> clientRef = Ref.create(clientEntity);
-
-        CrmDnaUserEntity cmrdnaUserEntity =
-                ofyCrmDna().load().type(CrmDnaUserEntity.class).id(email).now();
-
-        if (null != cmrdnaUserEntity) {
-            boolean found = cmrdnaUserEntity.clients.remove(clientRef);
-            if (found)
-                ofyCrmDna().save().entity(cmrdnaUserEntity);
-
-            // remove from client's namespace
-            UserEntity userEntity = ofy(client).load().type(UserEntity.class).id(email).now();
-
-            if (null != userEntity) {
-                ofy(client).delete().entity(userEntity).now();
-            }
-        }
-    }
-
-    static List<UserEntity> getAllUsers(String client) {
-        return ofy(client).load().type(UserEntity.class).orderKey(true).list();
     }
 
     public static EmailConfig addOrDeleteAllowedEmailSender(final String client,
