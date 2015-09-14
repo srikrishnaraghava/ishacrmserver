@@ -15,6 +15,7 @@ public class VenueEntity {
     @Index
     String name;
     String displayName;
+    String shortName;
     String address;
     @Index
     long groupId;
@@ -26,7 +27,7 @@ public class VenueEntity {
         prop.displayName = displayName;
         prop.address = address;
         prop.groupId = groupId;
-        prop.shortName = Utils.getAbbrev(prop.displayName);
+        prop.shortName = shortName;
 
         return prop;
     }

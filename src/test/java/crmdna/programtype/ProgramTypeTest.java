@@ -395,7 +395,7 @@ public class ProgramTypeTest {
 
         ProgramTypeProp mysticEye = ProgramType.create(client, "Mystic Eye", practiceIds, User.SUPER_USER);
 
-        VenueProp expo = Venue.create(client, "Expo", "expo", sgp.groupId, User.SUPER_USER);
+        VenueProp expo = Venue.create(client, "Expo", "expo", "expo", sgp.groupId, User.SUPER_USER);
         TeacherProp sadhguru = Teacher.create(client, "", "", "sadhguru@ishafoundation"
             + ".org", sgp.groupId, User.SUPER_USER);
 

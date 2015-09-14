@@ -121,7 +121,8 @@ public class MemberLoaderTest {
                 ProgramType.create(client, "Sahaja sthithi yoga", practiceIds, User.SUPER_USER);
 
         grassRootsClub =
-                Venue.create(client, "Grass roots club", "Grass roots club", sgp.groupId, User.SUPER_USER);
+                Venue.create(client, "Grass roots club", "GRC", "Grass roots club", sgp.groupId,
+                    User.SUPER_USER);
         assertEquals("first venueid is 1", 1, grassRootsClub.venueId);
 
         sharmila = Teacher.create(client, "Sharmila", "Napa", "sharmila.napa@gmail.com", sgp.groupId, User.SUPER_USER);

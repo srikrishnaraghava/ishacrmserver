@@ -99,7 +99,7 @@ public class ParticipantTest {
         ishaKriya = Practice.create(client, "Isha Kriya", User.SUPER_USER);
         aumChanting = Practice.create(client, "Aum Chanting", User.SUPER_USER);
 
-        Set<Long> practiceIds = new HashSet<Long>();
+        Set<Long> practiceIds = new HashSet<>();
         practiceIds.add(shambhavi.practiceId);
         practiceIds.add(aumChanting.practiceId);
         innerEngineering7Day = ProgramType.create(client,
@@ -117,15 +117,15 @@ public class ParticipantTest {
         ishaKriyaTeacherLed = ProgramType.create(client, "Isha Kriya",
                 practiceIds, User.SUPER_USER);
 
-        giis = Venue.create(client, "GIIS", "GIIS", sgp.groupId,
+        giis = Venue.create(client, "GIIS", "GIIS", "GIIS", sgp.groupId,
                 User.SUPER_USER);
-        chaichee = Venue.create(client, "Chai Chee", "Chai Chee", sgp.groupId,
+        chaichee = Venue.create(client, "Chai Chee", "Chai Chee", "Chai Chee", sgp.groupId,
                 User.SUPER_USER);
-        gujarathiBhavan = Venue.create(client, "Gujarathi Bhavan",
+        gujarathiBhavan = Venue.create(client, "Gujarathi Bhavan", "Gujarathi Bhavan",
                 "Gujarathi Bhavan", sgp.groupId, User.SUPER_USER);
-        yuhuaCC = Venue.create(client, "Yuhua CC", "Yuhua CC", sgp.groupId,
+        yuhuaCC = Venue.create(client, "Yuhua CC", "Yuhua CC", "Yuhua CC", sgp.groupId,
                 User.SUPER_USER);
-        woodlandsCC = Venue.create(client, "Woodlands CC", "Woodlands CC",
+        woodlandsCC = Venue.create(client, "Woodlands CC", "Woodlands CC", "Woodlands CC",
                 sgp.groupId, User.SUPER_USER);
 
         tina = Teacher.create(client, "", "", "tina@ishafoundation.org", sgp.groupId,

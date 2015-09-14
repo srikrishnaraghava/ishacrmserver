@@ -72,7 +72,7 @@ public class Registration {
             errorCallbackUrl = successCallbackUrl;
         Utils.ensureValidUrl(errorCallbackUrl);
 
-        return register(client, contact, programId, batchNo, fee, marketingChannel,
+        return register(client, contact, programId, batchNo, fee, null, marketingChannel,
             successCallbackUrl, errorCallbackUrl, rootUrl);
     }
 
@@ -90,7 +90,8 @@ public class Registration {
     }
 
     public static RegistrationProp register(String client, ContactProp contact, long programId,
-                                            int batchNo, Double fee, String marketingChannel, String successCallbackUrl,
+                                            int batchNo, Double fee, String paymentReference,
+                                            String marketingChannel, String successCallbackUrl,
                                             String errorCallbackUrl, String rootUrl) {
 
         Client.ensureValid(client);
@@ -176,7 +177,11 @@ public class Registration {
 
         fee = getFee(fee, programProp.fee);
 
-        if (programProp.fee == 0) {
+        registrationEntity.amount = fee.toString();
+        registrationEntity.ccy = programProp.ccy.toString();
+
+        if ((programProp.fee == 0) || (paymentReference != null)) {
+            registrationEntity.transactionId = paymentReference;
             registrationEntity.recordStateChange(RegistrationStatus.REGISTRATION_COMPLETE);
             ofy(client).save().entity(registrationEntity).now();
             return registrationEntity.toProp();
@@ -202,8 +207,6 @@ public class Registration {
                             contact.email, paymentName, registrationEntity.registrationId, prop, fee,
                             programProp.ccy.toString(), rootUrl, successCallbackUrl, errorCallbackUrl);
 
-            registrationEntity.amount = fee.toString();
-            registrationEntity.ccy = programProp.ccy.toString();
             registrationEntity.recordStateChange(RegistrationStatus.PAYMENT_AUTHORIZATION_PENDING);
             ofy(client).save().entity(registrationEntity).now();
             return registrationEntity.toProp();

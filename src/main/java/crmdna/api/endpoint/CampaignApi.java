@@ -52,7 +52,7 @@ public class CampaignApi {
             }
 
             if (displayName == null) {
-                displayName = programProp.getName();
+                displayName = programProp.getDetailedName();
             }
 
             login = Utils.getLoginEmail(user);

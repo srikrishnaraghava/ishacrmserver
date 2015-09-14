@@ -89,7 +89,8 @@ public class InteractionTest {
                 User.SUPER_USER);
 
         Venue.VenueProp pandianHall =
-                Venue.create(client, "Pandian Hall", "Pandian Hall", chennai.groupId, User.SUPER_USER);
+                Venue.create(client, "Pandian Hall", "Pandian Hall", "Pandian Hall", chennai.groupId,
+                    User.SUPER_USER);
         Teacher.TeacherProp thulasi = Teacher.create(client, "", "", "thulasidhar@gmail.com", chennai.groupId, User.SUPER_USER);
 
         Practice.PracticeProp ishaKriya = Practice.create(client, "Isha Kriya", User.SUPER_USER);
