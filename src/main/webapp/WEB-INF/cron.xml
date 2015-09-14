@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+    <cron>
+        <description>Isha backup</description>
+        <url>/_ah/datastore_admin/backup.create?name=isha_backup_&amp;namespace=isha&amp;kind=CampaignEntity&amp;kind=CheckInEntity&amp;kind=DepartmentEntity&amp;kind=GroupEntity&amp;kind=InteractionEntity&amp;kind=InteractionScoreEntity&amp;kind=InventoryCheckInEntity&amp;kind=InventoryCheckOutEntity&amp;kind=InventoryItemChangeEntity&amp;kind=InventoryItemEntity&amp;kind=InventoryItemTypeEntity&amp;kind=PackagedInventoryItemEntity&amp;kind=InventoryLocationEntity&amp;kind=PackagedInventorySalesEntity&amp;kind=PackagedInventoryBatchEntity&amp;kind=InventoryTransferEntity&amp;kind=IshaConfigEntity&amp;kind=ListEntity&amp;kind=MailContentEntity&amp;kind=MemberEntity&amp;kind=ParticipantEntity&amp;kind=PracticeEntity&amp;kind=ProgramEntity&amp;kind=ProgramTypeEntity&amp;kind=SentMailEntity&amp;kind=SequenceEntity&amp;kind=SessionPassEntity&amp;kind=ShardEntity&amp;kind=SubscriptionEntity&amp;kind=TeacherEntity&amp;kind=UserEntity&amp;kind=VenueEntity&amp;filesystem=gs&amp;gs_bucket_name=ishacrm_backup_all</url>
+        <schedule>every 24 hours</schedule>
+        <target>ah-builtin-python-bundle</target>
+    </cron>
+    <cron>
+        <description>Bhairavi backup</description>
+        <url>/_ah/datastore_admin/backup.create?name=bhairavi_backup_&amp;namespace=bhairavi&amp;kind=CampaignEntity&amp;kind=CheckInEntity&amp;kind=DepartmentEntity&amp;kind=GroupEntity&amp;kind=InteractionEntity&amp;kind=InteractionScoreEntity&amp;kind=InventoryCheckInEntity&amp;kind=InventoryCheckOutEntity&amp;kind=InventoryItemChangeEntity&amp;kind=InventoryItemEntity&amp;kind=InventoryItemTypeEntity&amp;kind=PackagedInventoryItemEntity&amp;kind=PackagedInventorySalesEntity&amp;kind=PackagedInventoryBatchEntity&amp;kind=InventoryLocationEntity&amp;kind=InventoryTransferEntity&amp;kind=IshaConfigEntity&amp;kind=ListEntity&amp;kind=MailContentEntity&amp;kind=MemberEntity&amp;kind=ParticipantEntity&amp;kind=PracticeEntity&amp;kind=ProgramEntity&amp;kind=ProgramTypeEntity&amp;kind=SentMailEntity&amp;kind=SequenceEntity&amp;kind=SessionPassEntity&amp;kind=ShardEntity&amp;kind=SubscriptionEntity&amp;kind=TeacherEntity&amp;kind=UserEntity&amp;kind=VenueEntity&amp;filesystem=gs&amp;gs_bucket_name=ishacrm_backup_all</url>
+        <schedule>every 24 hours</schedule>
+        <target>ah-builtin-python-bundle</target>
+    </cron>
+    <cron>
+        <description>CRMDNA backup</description>
+        <url>/_ah/datastore_admin/backup.create?name=CRMDNA_backup_&amp;namespace=CRMDNA&amp;kind=ClientEntity&amp;kind=ConfigCRMDNAEntity&amp;kind=TokenEntity&amp;filesystem=gs&amp;gs_bucket_name=ishacrm_backup_all</url>
+        <schedule>every 24 hours</schedule>
+        <target>ah-builtin-python-bundle</target>
+    </cron>
+</cronentries>

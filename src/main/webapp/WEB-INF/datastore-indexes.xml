@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<datastore-indexes
+        autoGenerate="true">
+    <datastore-index kind="InteractionEntity" ancestor="false">
+        <property name="userId" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="InteractionEntity" ancestor="false">
+        <property name="memberId" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="InteractionEntity" ancestor="false">
+        <property name="interactionType" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="InteractionEntity" ancestor="false">
+        <property name="campaignId" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="CampaignEntity" ancestor="false">
+        <property name="groupId" direction="asc" />
+        <property name="endYYYYMMDD" direction="asc" />
+    </datastore-index>
+    <datastore-index kind="CampaignEntity" ancestor="false">
+        <property name="enabled" direction="asc" />
+        <property name="endYYYYMMDD" direction="asc" />
+    </datastore-index>
+    <datastore-index kind="CampaignEntity" ancestor="false">
+        <property name="programId" direction="asc" />
+        <property name="endYYYYMMDD" direction="asc" />
+    </datastore-index>
+    <datastore-index kind="InventoryCheckInEntity" ancestor="false">
+        <property name="login" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="InventoryCheckInEntity" ancestor="false">
+        <property name="inventoryItemId" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="InventoryCheckOutEntity" ancestor="false">
+        <property name="login" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="InventoryCheckOutEntity" ancestor="false">
+        <property name="inventoryItemId" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="InventoryCheckOutEntity" ancestor="false">
+        <property name="tags" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="SentMailEntity" ancestor="false">
+        <property name="mailContentId" direction="asc" />
+        <property name="email" direction="asc" />
+    </datastore-index>
+    <datastore-index kind="SentMailEntity" ancestor="false">
+        <property name="__key__" direction="asc" />
+        <property name="countryCity" direction="asc" />
+    </datastore-index>
+    <datastore-index kind="SessionPassEntity" ancestor="false">
+        <property name="memberId" direction="asc"/>
+        <property name="used" direction="asc"/>
+        <property name="expiryMS" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="SessionPassEntity" ancestor="false">
+        <property name="memberId" direction="asc"/>
+        <property name="expiryMS" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="MailContentEntity" ancestor="false">
+        <property name="updatedBy" direction="asc" />
+        <property name="updatedMS" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="MemberEntity" ancestor="false">
+        <property name="__key__" direction="asc" />
+        <property name="email" direction="asc" />
+    </datastore-index>
+    <datastore-index kind="MemberEntity" ancestor="false">
+        <property name="unsubscribedGroupIds" direction="asc" />
+        <property name="email" direction="asc" />
+    </datastore-index>
+    <datastore-index kind="MealCountEntity" ancestor="false">
+        <property name="__key__" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="PaymentEntity" ancestor="false">
+        <property name="currency" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="PaymentEntity" ancestor="false">
+        <property name="collectedBy" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="PaymentEntity" ancestor="false">
+        <property name="paymentType" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="PaymentEntity" ancestor="false">
+        <property name="chequeNo" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+    <datastore-index kind="PaymentEntity" ancestor="false">
+        <property name="tags" direction="asc" />
+        <property name="ms" direction="desc" />
+    </datastore-index>
+</datastore-indexes>
