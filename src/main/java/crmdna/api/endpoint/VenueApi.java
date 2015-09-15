@@ -22,9 +22,10 @@ import java.util.List;
 public class VenueApi {
     @ApiMethod(path = "createVenue", httpMethod = HttpMethod.POST)
     public APIResponse createVenue(@Named("client") String client,
-                                   @Named("short_name") String displayName, @Named("address") String address,
-                                   @Named("group_id") long groupId, @Nullable @Named("showStackTrace") Boolean showStackTrace,
-                                   HttpServletRequest req, User user) {
+        @Named("display_name") String displayName, @Named("short_name") String shortName,
+        @Named("address") String address, @Named("group_id") long groupId,
+        @Nullable @Named("showStackTrace") Boolean showStackTrace,
+        HttpServletRequest req, User user) {
 
         if (client == null)
             client = "isha";
@@ -33,7 +34,7 @@ public class VenueApi {
 
         try {
             login = Utils.getLoginEmail(user);
-            VenueProp prop = Venue.create(client, displayName, address, groupId, login);
+            VenueProp prop = Venue.create(client, displayName, shortName, address, groupId, login);
 
             return new APIResponse().status(Status.SUCCESS).object(prop);
 
@@ -64,7 +65,8 @@ public class VenueApi {
 
     @ApiMethod(path = "updateVenue", httpMethod = HttpMethod.GET)
     public APIResponse updateVenue(@Named("client") String client, @Named("venue_id") long venueId,
-                                   @Nullable @Named("new_short_name") String newDisplayName,
+                                   @Nullable @Named("new_display_name") String newDisplayName,
+                                   @Nullable @Named("new_short_name") String newShortName,
                                    @Nullable @Named("new_address") String newAddress,
                                    @Nullable @Named("group_id") Long newGroupId,
                                    @Nullable @Named("showStackTrace") Boolean showStackTrace, HttpServletRequest req, User user) {
@@ -76,7 +78,8 @@ public class VenueApi {
 
         try {
             login = Utils.getLoginEmail(user);
-            VenueProp prop = Venue.update(client, venueId, newDisplayName, newAddress, newGroupId, login);
+            VenueProp prop = Venue.update(client, venueId, newDisplayName, newShortName, newAddress,
+                newGroupId, login);
 
             return new APIResponse().status(Status.SUCCESS).object(prop);
         } catch (Exception ex) {

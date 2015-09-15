@@ -40,3 +40,4 @@ Icon
 /.gradle
 /.idea
 build/*
+classes/*

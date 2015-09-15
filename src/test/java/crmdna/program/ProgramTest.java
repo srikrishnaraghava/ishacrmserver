@@ -125,13 +125,13 @@ public class ProgramTest {
         practiceIds.add(ishaKriya.practiceId);
         ishaKriyaTeacherLed = ProgramType.create(client, "Isha Kriya", practiceIds, User.SUPER_USER);
 
-        giis = Venue.create(client, "GIIS", "GIIS", sgp.groupId, User.SUPER_USER);
-        chaichee = Venue.create(client, "Chai Chee", "Chai Chee", sgp.groupId, User.SUPER_USER);
+        giis = Venue.create(client, "GIIS", "GIIS", "GIIS", sgp.groupId, User.SUPER_USER);
+        chaichee = Venue.create(client, "Chai Chee", "Chai Chee", "Chai Chee", sgp.groupId, User.SUPER_USER);
         gujarathiBhavan =
-                Venue.create(client, "Gujarathi Bhavan", "Gujarathi Bhavan", sgp.groupId, User.SUPER_USER);
-        yuhuaCC = Venue.create(client, "Yuhua CC", "Yuhua CC", sgp.groupId, User.SUPER_USER);
+                Venue.create(client, "Gujarathi Bhavan", "Gujarathi Bhavan", "Gujarathi Bhavan", sgp.groupId, User.SUPER_USER);
+        yuhuaCC = Venue.create(client, "Yuhua CC", "Yuhua CC", "Yuhua CC", sgp.groupId, User.SUPER_USER);
         woodlandsCC =
-                Venue.create(client, "Woodlands CC", "Woodlands CC", sgp.groupId, User.SUPER_USER);
+                Venue.create(client, "Woodlands CC", "Woodlands CC", "Woodlands CC", sgp.groupId, User.SUPER_USER);
 
         tina = Teacher.create(client, "", "", "tina@ishafoundation.org", sgp.groupId, User.SUPER_USER);
         thulasi = Teacher.create(client, "", "", "thulasidhar@gmail.com", sgp.groupId, User.SUPER_USER);

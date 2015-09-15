@@ -112,9 +112,9 @@ public class MemberSaverTest {
 
         GroupProp chennai = Group.create("isha", "Chennai", User.SUPER_USER);
 
-        VenueProp giis = Venue.create("isha", "GIIS", "GIIS", sgp.groupId,
+        VenueProp giis = Venue.create("isha", "GIIS", "GIIS", "GIIS", sgp.groupId,
                 User.SUPER_USER);
-        VenueProp expo = Venue.create("isha", "Expo", "Expo", sgp.groupId,
+        VenueProp expo = Venue.create("isha", "Expo", "Expo", "Expo", sgp.groupId,
                 User.SUPER_USER);
 
         TeacherProp nidhi = Teacher.create("isha", "Nidhi", "Jain",
@@ -251,7 +251,7 @@ public class MemberSaverTest {
         MemberProp thulasi = Member.create(client, sgp.groupId,
                 contactDetailProp, false, User.SUPER_USER);
 
-        VenueProp adiYogiAlayam = Venue.create(client, "Adi yogi aalayam",
+        VenueProp adiYogiAlayam = Venue.create(client, "Adi yogi aalayam", "AYA",
                 "Adi yogi aalamay", iyc.groupId, User.SUPER_USER);
 
         PracticeProp suryaKriya = Practice.create(client, "surya kriya",

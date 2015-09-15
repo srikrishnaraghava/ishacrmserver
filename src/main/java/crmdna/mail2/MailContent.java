@@ -224,7 +224,12 @@ public class MailContent {
         ofy(client).delete().entity(entity).now();
     }
 
+    public static void ensureReservedMailContentExists(String client, long groupId, ReservedMailContentName name) {
+        MailContentEntity entity = MailContent.getByName(client, name.toString(), groupId);
+        ensureNotNull(entity, "MailContent for " + name + " not found");
+    }
+
     public enum ReservedMailContentName {
-        RESERVED_EMAIL_VERIFICATION, RESERVED_PASSWORD_CHANGE, RESERVED_PASSWORD_RESET, RESERVED_REGISTRATION_CONFIRMATION, RESERVED_SUBSCRIPTION_PURCHASE
+        RESERVED_EMAIL_VERIFICATION, RESERVED_PASSWORD_CHANGE, RESERVED_PASSWORD_RESET, RESERVED_REGISTRATION_CONFIRMATION, RESERVED_SUBSCRIPTION_PURCHASE, RESERVED_RECEIPT
     }
 }

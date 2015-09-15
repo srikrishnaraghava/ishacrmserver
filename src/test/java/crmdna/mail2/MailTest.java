@@ -881,7 +881,7 @@ public class MailTest {
     }
 
     private long createIshaUpaYogaProgram() {
-        long venueId = Venue.create(client, "Venue1", "Full address",
+        long venueId = Venue.create(client, "Venue1", "Venue1", "Full address",
                 sgp.groupId, User.SUPER_USER).venueId;
 
         long teacherId = Teacher.create(client, "firstname", "lastname",

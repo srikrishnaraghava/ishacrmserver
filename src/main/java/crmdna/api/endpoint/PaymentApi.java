@@ -5,6 +5,7 @@ import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.appengine.api.users.User;
 import crmdna.api.endpoint.ClientApi.ClientEnum;
+import crmdna.api.endpoint.ProgramIshaApi.GroupEnum;
 import crmdna.client.Client;
 import crmdna.common.DateUtils;
 import crmdna.common.DateUtils.DateRange;
@@ -14,6 +15,8 @@ import crmdna.common.api.APIResponse;
 import crmdna.common.api.APIResponse.Status;
 import crmdna.common.api.APIUtils;
 import crmdna.common.api.RequestInfo;
+import crmdna.payment.Receipt;
+import crmdna.payment.ReceiptProp;
 import crmdna.payment2.Payment;
 import crmdna.payment2.Payment.PaymentType;
 import crmdna.payment2.PaymentEntity;
@@ -127,5 +130,35 @@ public class PaymentApi {
             return APIUtils.toAPIResponse(ex, showStackTrace, new RequestInfo().client(client).req(req)
                     .login(login));
         }
+    }
+
+    @ApiMethod(path = "generateReceiptForRegId", httpMethod = HttpMethod.POST)
+    public APIResponse generateReceiptForRegId(@Named("client") ClientEnum clientEnum,
+        @Named("group") GroupEnum groupEnum,
+        @Named("registrationId") long registrationId,
+        @Named("sendEmail") boolean sendEmail,
+        @Nullable @Named("clientOther") String clientOther,
+        @Nullable @Named("groupOtherIdOrName") String groupOtherIdOrName,
+        @Nullable @Named("showStackTrace") Boolean showStackTrace, HttpServletRequest req, User user) {
+
+        String client = EndpointUtils.getClient(clientEnum, clientOther);
+        long groupId;
+        String login = null;
+
+        try {
+
+            groupId = EndpointUtils.getGroupId(client, groupEnum, groupOtherIdOrName);
+            login = Utils.getLoginEmail(user);
+
+            ReceiptProp receiptProp = Receipt.generateForRegistration(client, groupId,
+                registrationId, sendEmail);
+
+            return new APIResponse().status(Status.SUCCESS).object(receiptProp);
+
+        } catch (Exception ex) {
+            return APIUtils.toAPIResponse(ex, showStackTrace, new RequestInfo().client(client).req(req)
+                .login(login));
+        }
+
     }
 }

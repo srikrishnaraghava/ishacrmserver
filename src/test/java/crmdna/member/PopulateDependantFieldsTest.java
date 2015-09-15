@@ -71,7 +71,7 @@ public class PopulateDependantFieldsTest {
         angamardhana2Day = ProgramType.create(client, "Angamardhana 2 day",
                 Utils.getSet(angamardhana.practiceId), User.SUPER_USER);
 
-        VenueProp dummyVenue = Venue.create(client, "Dummy", "Dummy",
+        VenueProp dummyVenue = Venue.create(client, "Dummy", "Dummy", "Dummy",
                 sgp.groupId, User.SUPER_USER);
         TeacherProp dummTeacher = Teacher.create(client, "", "", "dummy@dummy.com",
                 sgp.groupId, User.SUPER_USER);

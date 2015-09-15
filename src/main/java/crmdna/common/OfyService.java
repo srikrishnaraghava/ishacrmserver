@@ -35,6 +35,7 @@ import crmdna.mail2.URLEntity;
 import crmdna.member.MemberEntity;
 import crmdna.objectstore.ObjectEntity;
 import crmdna.participant.ParticipantEntity;
+import crmdna.payment.ReceiptEntity;
 import crmdna.payment.TokenEntity;
 import crmdna.payment2.PaymentEntity;
 import crmdna.practice.PracticeEntity;
@@ -100,6 +101,7 @@ public class OfyService {
         factory().register(ListEntity.class);
         factory().register(InteractionScoreEntity.class);
         factory().register(CampaignEntity.class);
+        factory().register(ReceiptEntity.class);
     }
 
     public static Objectify ofy(String client) {

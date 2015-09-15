@@ -72,7 +72,7 @@ public class CampaignTest {
                 User.SUPER_USER);
 
         Venue.VenueProp woodlandsCC =
-                Venue.create(client, "Woodlands CC", "Woodlands CC", sgp.groupId, User.SUPER_USER);
+                Venue.create(client, "Woodlands CC", "Woodlands CC", "Woodlands CC", sgp.groupId, User.SUPER_USER);
         Teacher.TeacherProp thulasi = Teacher.create(client, "", "", "thulasidhar@gmail.com", sgp.groupId, User.SUPER_USER);
 
         Practice.PracticeProp ishaKriya = Practice.create(client, "Isha Kriya", User.SUPER_USER);

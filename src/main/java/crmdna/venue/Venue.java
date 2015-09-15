@@ -18,21 +18,21 @@ import java.util.Collections;
 import java.util.List;
 
 import static crmdna.common.AssertUtils.ensureNotNull;
+import static crmdna.common.AssertUtils.ensureNotNullNotEmpty;
 import static crmdna.common.OfyService.ofy;
 
 public class Venue {
 
-    public static VenueProp create(String client, String displayName, String address, long groupId,
-                                   String login) {
+    public static VenueProp create(String client, String displayName, String shortName,
+        String address, long groupId, String login) {
 
         Client.ensureValid(client);
         User.ensureClientLevelPrivilege(client, login, ClientLevelPrivilege.UPDATE_VENUE);
         Group.safeGet(client, groupId);
 
-        if ((null == displayName) || displayName.equals(""))
-            Utils.throwIncorrectSpecException("display name is null or empty string");
-        if ((null == address) || address.equals(""))
-            Utils.throwIncorrectSpecException("address is null or empty string");
+        ensureNotNullNotEmpty(displayName, "displayName");
+        ensureNotNullNotEmpty(address, "address");
+        ensureNotNullNotEmpty(shortName, "shortName");
 
         String name = Utils.removeSpaceUnderscoreBracketAndHyphen(displayName.toLowerCase());
 
@@ -54,6 +54,7 @@ public class Venue {
         entity.venueId = Sequence.getNext(client, SequenceType.VENUE);
         entity.name = name;
         entity.displayName = displayName;
+        entity.shortName = shortName;
         entity.address = address;
         entity.groupId = groupId;
         ofy(client).save().entity(entity).now();
@@ -104,7 +105,8 @@ public class Venue {
     }
 
     public static VenueProp update(final String client, final long venueId,
-                                   final String newDisplayName, final String newAddress, final Long newGroupId, String login) {
+        final String newDisplayName, final String newShortName, final String newAddress,
+        final Long newGroupId, String login) {
 
         Client.ensureValid(client);
         User.ensureClientLevelPrivilege(client, login, ClientLevelPrivilege.UPDATE_VENUE);
@@ -146,6 +148,8 @@ public class Venue {
                     entity.name = Utils.removeSpaceUnderscoreBracketAndHyphen(newDisplayName.toLowerCase());
                 }
 
+                if (newShortName != null)
+                    entity.shortName = newShortName;
                 if (newAddress != null)
                     entity.address = newAddress;
                 if (newGroupId != null)
@@ -184,7 +188,7 @@ public class Venue {
         return props;
     }
 
-    static List<VenueProp> getAllForGroup(String client, long groupId) {
+    public static List<VenueProp> getAllForGroup(String client, long groupId) {
         Client.ensureValid(client);
         Group.safeGet(client, groupId);
 
