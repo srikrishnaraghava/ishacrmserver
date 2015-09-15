@@ -464,17 +464,6 @@ public class Utils {
         return firstName + " " + lastName;
     }
 
-    public static String getAbbrev(String fullName) {
-        String[] list = fullName.split("[ ,:]");
-        String abbrev = new String();
-        for (String s : list) {
-            if (! s.isEmpty())
-                abbrev += s.charAt(0);
-        }
-
-        return abbrev.toUpperCase();
-    }
-
     public static String asCurrencyString(double d) {
         DecimalFormat df = new DecimalFormat("#.00");
         return df.format(d);

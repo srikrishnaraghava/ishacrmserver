@@ -80,9 +80,9 @@ public class IshaUtilsTest {
         GroupProp sgp = Group.create("isha", "Singapore", User.SUPER_USER);
         GroupProp chennai = Group.create("isha", "Chennai", User.SUPER_USER);
 
-        VenueProp giis = Venue.create("isha", "GIIS", "GIIS", sgp.groupId,
+        VenueProp giis = Venue.create("isha", "GIIS", "GIIS", "GIIS", sgp.groupId,
                 User.SUPER_USER);
-        VenueProp expo = Venue.create("isha", "Expo", "Expo", sgp.groupId,
+        VenueProp expo = Venue.create("isha", "Expo", "Expo", "Expo", sgp.groupId,
                 User.SUPER_USER);
 
         TeacherProp nidhi = Teacher.create("isha", "", "",

@@ -60,6 +60,10 @@
         <servlet-class>crmdna.api.servlet.GroupServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Venue</servlet-name>
+        <servlet-class>crmdna.api.servlet.VenueServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>EmailTemplate</servlet-name>
         <servlet-class>crmdna.group.EmailTemplateServlet</servlet-class>
     </servlet>
@@ -203,6 +207,14 @@
     <servlet-mapping>
         <servlet-name>Group</servlet-name>
         <url-pattern>/group</url-pattern>
+    </servlet-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/venue</url-pattern>
+    </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>Venue</servlet-name>
+        <url-pattern>/venue</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>EmailTemplate</servlet-name>

@@ -420,7 +420,7 @@ public class DateUtils {
         int month = Integer.parseInt(s.substring(4, 6));
         int day = Integer.parseInt(s.substring(6, 8));
 
-        return day + " " + get3CharMonth(month) + " " + year;
+        return day + " " + get3CharMonth(month) + " '" + year;
     }
 
     public static void ensureFormatYYYYMMDD(int date) {
@@ -455,6 +455,11 @@ public class DateUtils {
     public static String toISOString(Date timestamp) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return sdf.format(timestamp);
+    }
+
+    public static String toLongDateString(Date timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
         return sdf.format(timestamp);
     }
 

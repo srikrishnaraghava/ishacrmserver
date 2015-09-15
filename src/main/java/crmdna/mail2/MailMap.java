@@ -25,14 +25,17 @@ public class MailMap {
         PASSWORD,
         SUBSCRIPTION_TYPE,
         AMOUNT,
+        AMOUNT_IN_WORDS,
         VALIDITY,
         PROGRAM_NAME,
         REGISTRATION_ID,
+        DATE,
         DATES,
         VENUE,
         SESSIONS,
         TRANSACTION_ID,
         INVOICE_NUMBER,
+        PURPOSE,
     }
 
     private Map<String, Map<MergeVarID, String>> map = new HashMap<>();

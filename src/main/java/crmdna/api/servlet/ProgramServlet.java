@@ -58,7 +58,8 @@ public class ProgramServlet extends HttpServlet {
                     List<ProgramProp> programProps =
                             Program.query(client, ServletUtils.getIntParam(request, "startYYYYMMDD"),
                                     ServletUtils.getIntParam(request, "endYYYYMMDD"),
-                                    ServletUtils.getLongParamsAsSet(request, "programTypeId"), null, null, null);
+                                    ServletUtils.getLongParamsAsSet(request, "programTypeId"),
+                                    ServletUtils.getLongParamsAsSet(request, "groupId"), null, null);
                     ServletUtils.setJson(response, new APIResponse().status(Status.SUCCESS).object(programProps));
 
                 } else if (action.equals("queryDetailed")) {

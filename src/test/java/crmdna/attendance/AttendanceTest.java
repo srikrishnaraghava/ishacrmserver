@@ -146,15 +146,15 @@ public class AttendanceTest {
         shambhavi2Day = ProgramType.create(client, "Shambhavi", practiceIds,
                 User.SUPER_USER);
 
-        giis = Venue.create(client, "GIIS", "GIIS", sgp.groupId,
+        giis = Venue.create(client, "GIIS", "GIIS", "GIIS", sgp.groupId,
                 User.SUPER_USER);
-        chaichee = Venue.create(client, "Chai Chee", "Chai Chee", sgp.groupId,
+        chaichee = Venue.create(client, "Chai Chee", "Chai Chee", "Chai Chee", sgp.groupId,
                 User.SUPER_USER);
-        gujarathiBhavan = Venue.create(client, "Gujarathi Bhavan",
+        gujarathiBhavan = Venue.create(client, "Gujarathi Bhavan", "GB",
                 "Gujarathi Bhavan", sgp.groupId, User.SUPER_USER);
-        yuhuaCC = Venue.create(client, "Yuhua CC", "Yuhua CC", sgp.groupId,
+        yuhuaCC = Venue.create(client, "Yuhua CC", "Yuhua CC", "Yuhua CC", sgp.groupId,
                 User.SUPER_USER);
-        woodlandsCC = Venue.create(client, "Woodlands CC", "Woodlands CC",
+        woodlandsCC = Venue.create(client, "Woodlands CC", "Woodlands CC", "Woodlands CC",
                 sgp.groupId, User.SUPER_USER);
 
         muthu = Teacher.create(client, "Muthu", "Kumar", "muthu_sys@gmail.com", sgp.groupId,

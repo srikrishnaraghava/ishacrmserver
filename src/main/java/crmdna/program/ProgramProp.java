@@ -141,8 +141,9 @@ public class ProgramProp implements Comparable<ProgramProp> {
         return name;
     }
 
-    public String getName() {
-        return programTypeProp.displayName + ": "
-                + DateUtils.getDurationAsString(startYYYYMMDD, endYYYYMMDD);
+    public String getDetailedName() {
+        return programTypeProp.displayName + " on "
+            + DateUtils.getDurationAsString(startYYYYMMDD, endYYYYMMDD) + " @ "
+            + venueProp.shortName;
     }
 }
