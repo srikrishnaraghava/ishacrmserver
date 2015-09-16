@@ -7,18 +7,16 @@ import com.googlecode.objectify.ObjectifyFilter;
 import crmdna.common.Utils;
 import crmdna.common.api.APIException;
 import crmdna.common.api.APIResponse.Status;
-import crmdna.mail2.Mail;
 import crmdna.user.User;
-import crmdna.user.UserEntity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class ClientTest {
@@ -109,7 +107,12 @@ public class ClientTest {
 
     @Test
     public void getTest() {
-        assertTrue(false);
+        assertNull(Client.get("isha"));
+
+        Client.create("isha");
+        ClientProp prop = Client.get("isha").toProp();
+        assertEquals("isha", prop.name);
+        assertEquals("isha", prop.displayName);
     }
 
     @Test
@@ -167,76 +170,6 @@ public class ClientTest {
         assertEquals("Barclays Capital", all.get(0).displayName);
         assertEquals("isha fou", all.get(1).name);
         assertEquals("Isha Foundation", all.get(1).displayName);
-    }
-
-    @Test
-    public void addUserTest() {
-        ClientProp clientProp = Client.create("isha");
-        assertEquals("isha", clientProp.name);
-
-        String email = "sai@ishafoundation.org";
-        Client.addUser("isha", email);
-        ObjectifyFilter.complete();
-
-        assertEquals("isha", CrmDnaUser.getClients(email).first().name);
-
-        List<UserEntity> users = Client.getAllUsers("isha");
-        assertEquals(1, users.size());
-        assertTrue(users.get(0).email.equals(email));
-
-        String email2 = "sathyanarayanant@gmail.com";
-        Client.addUser("isha", email2);
-        Client.addUser("isha", email);
-        ObjectifyFilter.complete();
-
-        users = Client.getAllUsers("isha");
-        assertEquals(2, users.size());
-        assertEquals(email, users.get(0).email);
-        assertEquals(email2, users.get(1).email);
-    }
-
-    @Test
-    public void deleteUserTest() {
-        ClientProp clientProp = Client.create("isha");
-        assertEquals("isha", clientProp.name);
-
-        String email = "sathya.t@ishafoundation.org";
-        Client.addUser("isha", email);
-        ObjectifyFilter.complete();
-
-        assertEquals("isha", CrmDnaUser.getClients(email).first().name);
-
-        // now delete it
-        Client.deleteUser("isha", email);
-        ObjectifyFilter.complete();
-
-        assertEquals(0, CrmDnaUser.getClients(email).size());
-
-        List<UserEntity> users = Client.getAllUsers("isha");
-        System.out.println("users: " + new Gson().toJson(users));
-        assertEquals(0, users.size());
-
-        // can delete the user again
-        Client.deleteUser("isha", email); // no exception
-    }
-
-    @Test
-    public void getAllUsersTest() {
-        ClientProp clientProp = Client.create("isha");
-        assertEquals("isha", clientProp.name);
-
-        Client.addUser("isha", "email2@email.com");
-        Client.addUser("isha", "email3@email.com");
-        Client.addUser("isha", "email1@email.com");
-        ObjectifyFilter.complete();
-
-        List<UserEntity> users = Client.getAllUsers("isha");
-        assertEquals(3, users.size());
-        List<UserEntity> list = new ArrayList<>();
-        list.addAll(users);
-        assertEquals("email1@email.com", list.get(0).email);
-        assertEquals("email2@email.com", list.get(1).email);
-        assertEquals("email3@email.com", list.get(2).email);
     }
 
     @Test
