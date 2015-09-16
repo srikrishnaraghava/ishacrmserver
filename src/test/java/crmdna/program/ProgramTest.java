@@ -268,7 +268,7 @@ public class ProgramTest {
         assertEquals(20131229, programProp.endYYYYMMDD);
         assertEquals(2, programProp.numBatches);
         assertEquals(null, programProp.description);
-        assertEquals("Isha Kriya 29 Dec 13 @ Yuhua CC", programProp.name);
+        assertEquals("Isha Kriya 29 Dec '13 @ Yuhua CC", programProp.name);
         assertTrue(150 == programProp.fee);
         assertEquals(Currency.SGD, programProp.ccy);
 
@@ -342,7 +342,7 @@ public class ProgramTest {
         assertEquals(20131229, programProp.startYYYYMMDD);
         assertEquals(20131229, programProp.endYYYYMMDD);
         assertEquals(null, programProp.description);
-        assertEquals("Isha Kriya 29 Dec 13 @ Yuhua CC", programProp.name);
+        assertEquals("Isha Kriya 29 Dec '13 @ Yuhua CC", programProp.name);
     }
 
     @Test
