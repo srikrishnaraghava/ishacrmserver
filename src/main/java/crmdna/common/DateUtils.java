@@ -463,6 +463,14 @@ public class DateUtils {
         return sdf.format(timestamp);
     }
 
+    public static int getNumDays(Date former, Date later) {
+        final int MILLI_SECONDS_IN_A_DAY = 3600 * 24 * 1000;
+
+        int numDays = (int) (later.getTime() - former.getTime()) / MILLI_SECONDS_IN_A_DAY;
+
+        return numDays;
+    }
+
     public enum Month {
         JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC
     }

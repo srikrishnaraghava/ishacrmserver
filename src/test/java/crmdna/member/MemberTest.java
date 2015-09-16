@@ -635,7 +635,7 @@ public class MemberTest {
         sathya.contact.firstName = "Sathya,";
         sathya.contact.lastName = "Thilakan";
         sathya.contact.email = "sathya.t@ishafoundation.org";
-        sathya.contact.mobilePhone = "+6593232152";
+        sathya.contact.mobilePhone = "+6598361844";
         sathya.practiceIds.add(shambhavi.practiceId);
         sathya.practiceIds.add(shoonya.practiceId);
         sathya.practiceIds.add(bsp.practiceId);
@@ -646,7 +646,7 @@ public class MemberTest {
         sowmya.contact = new ContactProp();
         sowmya.contact.firstName = "Sowmya";
         sowmya.contact.email = "sowmya@sowmya.com";
-        sowmya.contact.mobilePhone = "+6593232152";
+        sowmya.contact.mobilePhone = "+6598361844";
         sowmya.practiceIds.add(shambhavi.practiceId);
 
         memberProps.add(sathya);
@@ -657,8 +657,8 @@ public class MemberTest {
 
         StringBuilder expected = new StringBuilder();
         expected.append("First Name, Last Name, Email, Mobile, Home Phone, Office Phone, Shambhavi ?, Shoonya ?, BSP ?, Samyama ?, Isha CRM Member Id\n");
-        expected.append("Sathya,Thilakan,sathya.t@ishafoundation.org,+6593232152,,,Yes,Yes,Yes,Yes,1\n");
-        expected.append("Sowmya,,sowmya@sowmya.com,+6593232152,,,Yes,No,No,No,2\n");
+        expected.append("Sathya,Thilakan,sathya.t@ishafoundation.org,+6598361844,,,Yes,Yes,Yes,Yes,1\n");
+        expected.append("Sowmya,,sowmya@sowmya.com,+6598361844,,,Yes,No,No,No,2\n");
 
         assertEquals(expected.toString(), csv);
 

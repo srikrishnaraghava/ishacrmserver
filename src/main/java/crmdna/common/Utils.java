@@ -443,14 +443,6 @@ public class Utils {
             throwIncorrectSpecException("Specified number [" + n + "] is negative");
     }
 
-    public static int getNumDays(Date former, Date later) {
-        final int MILLI_SECONDS_IN_A_DAY = 3600 * 24 * 1000;
-
-        int numDays = (int) (former.getTime() - later.getTime()) / MILLI_SECONDS_IN_A_DAY;
-
-        return numDays;
-    }
-
     public static String getFullName(String firstName, String lastName) {
         if ((firstName == null) && (lastName == null))
             return null;
@@ -760,23 +752,6 @@ public class Utils {
             return null;
 
         return email;
-    }
-
-    // TODO: check if this method is really required. probably can be removed
-    public static <T> String toUserFriendlyString(Iterable<T> iterable) {
-        if (iterable == null)
-            return null;
-
-        StringBuilder builder = new StringBuilder();
-
-        int lineNo = 0;
-        for (T t : iterable) {
-            lineNo++;
-
-            builder.append("<br>" + lineNo + ") - " + t);
-        }
-
-        return builder.toString();
     }
 
     public static boolean isDifferentCaseInsensitive(String s1, String s2) {
