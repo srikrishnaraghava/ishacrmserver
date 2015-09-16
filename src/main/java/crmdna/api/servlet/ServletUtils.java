@@ -152,9 +152,7 @@ class ServletUtils {
             return null;
         }
         Set<String> set = new HashSet<>();
-        for (String value : values) {
-            set.add(value);
-        }
+        set.addAll(Arrays.asList(values));
         return set;
     }
 
