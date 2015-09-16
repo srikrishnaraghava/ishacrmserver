@@ -278,7 +278,7 @@ public class ProgramIshaApi {
     public enum SingaporeIshaKriyaTeacher {
         SHAMLA("tshamn@gmail.com"),
         BAK_LIANG_LOR("lorbakliang@gmail.com"), SUNDARA_VADIVEL("vsundar18@gmail.com"),
-        JIANWEN("t0iddii@yahoo.com"), SHILPI_MALHOTRA("smalhot1@googlemail.com"), SWAMINATHAN("swami@ymail.com"), OTHER("other");
+        JIANWEN("t0iddii@yahoo.com"), SHILPI_MALHOTRA("smalhot1@googlemail.com"), SWAMINATHAN("imswaminathan@gmail.com"), OTHER("other");
 
         private final String value;
         SingaporeIshaKriyaTeacher(String value) {
