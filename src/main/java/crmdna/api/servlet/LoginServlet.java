@@ -40,7 +40,10 @@ public class LoginServlet extends HttpServlet {
             String login = ServletUtils.getLogin(request);
 
             User.ensureValidUser(ServletUtils.getStrParam(request, "client"), login);
-            ServletUtils.setJson(response, new APIResponse().status(Status.SUCCESS).object(login));
+
+            ServletUtils.setJson(response, new APIResponse()
+                .status(Status.SUCCESS)
+                .object(User.get(client, login).toProp(client)));
 
         } else if (action.equals("login")) {
 
