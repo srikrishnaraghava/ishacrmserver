@@ -44,11 +44,13 @@ public class ProgramServlet extends HttpServlet {
     private void query(String client, String login, HttpServletRequest request,
         HttpServletResponse response) throws IOException {
 
+        Set<Long> groupIds = new HashSet<>();
+        groupIds.add(Group.safeGetByIdOrName(client, ServletUtils.getStrParam(request, "group")).toProp().groupId);
         List<ProgramProp> programProps =
             Program.query(client, ServletUtils.getIntParam(request, "startYYYYMMDD"),
                 ServletUtils.getIntParam(request, "endYYYYMMDD"),
                 ServletUtils.getLongParamsAsSet(request, "programTypeId"),
-                ServletUtils.getLongParamsAsSet(request, "groupId"), null, null);
+                groupIds, null, null);
 
         ServletUtils.setJson(response, new APIResponse().status(Status.SUCCESS).object(programProps));
     }
@@ -56,11 +58,13 @@ public class ProgramServlet extends HttpServlet {
     private void queryDetailed(String client, String login, HttpServletRequest request,
         HttpServletResponse response) throws IOException {
 
+        Set<Long> groupIds = new HashSet<>();
+        groupIds.add(Group.safeGetByIdOrName(client, ServletUtils.getStrParam(request, "group")).toProp().groupId);
         List<ProgramProp> programProps =
             Program.query(client, ServletUtils.getIntParam(request, "startYYYYMMDD"),
                 ServletUtils.getIntParam(request, "endYYYYMMDD"),
                 ServletUtils.getLongParamsAsSet(request, "programTypeId"),
-                ServletUtils.getLongParamsAsSet(request, "groupId"), null, null);
+                groupIds, null, null);
 
         for (ProgramProp programProp : programProps) {
             programProp.regSummary =
