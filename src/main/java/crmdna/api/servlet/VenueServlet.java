@@ -4,6 +4,7 @@ import crmdna.common.api.APIResponse;
 import crmdna.common.api.APIResponse.Status;
 import crmdna.common.api.APIUtils;
 import crmdna.common.api.RequestInfo;
+import crmdna.group.Group;
 import crmdna.venue.Venue;
 import crmdna.venue.Venue.VenueProp;
 
@@ -20,10 +21,11 @@ public class VenueServlet extends HttpServlet {
     private void create(String client, String login, HttpServletRequest request,
         HttpServletResponse response) throws IOException {
 
+        long groupId = Group.safeGetByIdOrName(client, ServletUtils.getStrParam(request, "group")).toProp().groupId;
         VenueProp venueProp = Venue.create(client, ServletUtils.getStrParam(request, "displayName"),
             ServletUtils.getStrParam(request, "shortName"),
             ServletUtils.getStrParam(request, "address"),
-            ServletUtils.getLongParam(request, "groupId"), login);
+            groupId, login);
 
         ServletUtils.setJson(response, new APIResponse().status(Status.SUCCESS).object(venueProp));
     }
@@ -31,11 +33,12 @@ public class VenueServlet extends HttpServlet {
     private void update(String client, String login, HttpServletRequest request,
         HttpServletResponse response) throws IOException {
 
+        long groupId = Group.safeGetByIdOrName(client, ServletUtils.getStrParam(request, "group")).toProp().groupId;
         VenueProp venueProp = Venue.update(client, ServletUtils.getLongParam(request, "venueId"),
             ServletUtils.getStrParam(request, "displayName"),
             ServletUtils.getStrParam(request, "shortName"),
             ServletUtils.getStrParam(request, "address"),
-            ServletUtils.getLongParam(request, "groupId"), login);
+            groupId, login);
 
         ServletUtils.setJson(response, new APIResponse().status(Status.SUCCESS).object(venueProp));
     }
@@ -43,8 +46,8 @@ public class VenueServlet extends HttpServlet {
     private void getAll(String client, String login, HttpServletRequest request,
         HttpServletResponse response) throws Exception {
 
-        List<VenueProp> venueProps = Venue.getAllForGroup(client,
-            ServletUtils.getLongParam(request, "groupId"));
+        long groupId = Group.safeGetByIdOrName(client, ServletUtils.getStrParam(request, "group")).toProp().groupId;
+        List<VenueProp> venueProps = Venue.getAllForGroup(client, groupId);
 
         ServletUtils.setJson(response, new APIResponse().object(venueProps).status(Status.SUCCESS));
     }
