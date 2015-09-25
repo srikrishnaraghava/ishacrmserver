@@ -1,5 +1,6 @@
 package crmdna.api.servlet;
 
+import crmdna.common.DateUtils;
 import crmdna.common.Utils;
 import crmdna.common.api.APIResponse;
 import crmdna.common.api.APIResponse.Status;
@@ -28,7 +29,7 @@ public class MailServlet extends HttpServlet {
     private MailContentProp sanitize(String client, HttpServletRequest request, MailContentProp mailContentProp) {
         mailContentProp.bodyUrl =
             request.getScheme() + "://" + request.getServerName() + ":"
-                + request.getServerPort() + "/mailContent/get?client=" + client
+                + request.getServerPort() + "/mailContent?client=" + client
                 + "&mailContentId=" + mailContentProp.mailContentId;
         mailContentProp.body = null;
         return mailContentProp;
@@ -74,12 +75,21 @@ public class MailServlet extends HttpServlet {
 
                 } else if (action.equals("queryMailContent")) {
 
-                    Long daysAgo = ServletUtils.getLongParam(request, "daysAgo");
-                    Long startMS = null;
-                    if (daysAgo != null)
-                        startMS = new Date().getTime() - (daysAgo * 86400 * 1000);
+                    Integer startYYYYMMDD = ServletUtils.getIntParam(request, "startYYYYMMDD");
+                    Integer endYYYYMMDD = ServletUtils.getIntParam(request, "endYYYYMMDD");
 
-                    List<MailContentEntity> entities = MailContent.query(client, null, startMS, null, login);
+                    Long startMS = null;
+                    Long endMS = null;
+
+                    if (startYYYYMMDD != null) {
+                        startMS = DateUtils.toDate(startYYYYMMDD).getTime();
+                    }
+
+                    if (endYYYYMMDD != null) {
+                        endMS = DateUtils.toDate(endYYYYMMDD).getTime();
+                    }
+
+                    List<MailContentEntity> entities = MailContent.query(client, null, startMS, endMS, login);
 
                     List<MailContentProp> props = new ArrayList<>();
                     for (MailContentEntity entity : entities) {

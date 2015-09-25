@@ -151,6 +151,13 @@ public final class AuthFilter implements Filter {
             if (action.equals("sendReportAsEmail")) {
                 return false;
             }
+        } else if (uri.startsWith("/mailContent")) {
+            if (action == null) {
+                return false;
+            }
+            if (action.equals("viewContent")) {
+                return false;
+            }
         }
 
         return true;

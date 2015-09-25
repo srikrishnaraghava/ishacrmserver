@@ -69,7 +69,7 @@
     </servlet>
     <servlet>
         <servlet-name>MailContent</servlet-name>
-        <servlet-class>crmdna.mail2.MailContentServlet</servlet-class>
+        <servlet-class>crmdna.api.servlet.MailContentServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DoExpressCheckout</servlet-name>
@@ -216,13 +216,17 @@
         <servlet-name>Venue</servlet-name>
         <url-pattern>/venue</url-pattern>
     </servlet-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/mailContent</url-pattern>
+    </filter-mapping>
+    <servlet-mapping>
+        <servlet-name>MailContent</servlet-name>
+        <url-pattern>/mailContent</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>EmailTemplate</servlet-name>
         <url-pattern>/emailTemplate/get</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>MailContent</servlet-name>
-        <url-pattern>/mailContent/get</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DoExpressCheckout</servlet-name>
