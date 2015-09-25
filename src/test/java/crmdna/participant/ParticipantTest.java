@@ -4,7 +4,12 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.ObjectifyFilter;
 import crmdna.client.Client;
+import crmdna.common.api.APIException;
+import crmdna.common.api.APIResponse;
+import crmdna.common.contact.ContactProp;
 import crmdna.group.Group.GroupProp;
+import crmdna.member.MemberLoader;
+import crmdna.member.MemberProp;
 import crmdna.practice.Practice;
 import crmdna.practice.Practice.PracticeProp;
 import crmdna.program.Program;
@@ -21,7 +26,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -152,167 +159,111 @@ public class ParticipantTest {
         datastoreHelper.tearDown();
     }
 
-    // @Test
-    // public void uploadAllTest() {
-    // ContactProp c1 = new ContactProp();
-    // c1.email = "oasisram@gmail.com";
-    // c1.firstName = "Ramakrishnan";
-    //
-    // List<ContactProp> contactDetailProps = new ArrayList<>();
-    // contactDetailProps.add(c1);
-    //
-    // UploadReportProp uploadReportProp = Participant.uploadAll(client,
-    // contactDetailProps, ishaKriya18Aug2013.programId, false,
-    // User.SUPER_USER);
-    //
-    // assertEquals(1, uploadReportProp.numParticipants);
-    // assertEquals(1, uploadReportProp.newMemberEmails);
-    // assertEquals(0, uploadReportProp.existingMemberEmails);
-    //
-    // List<ParticipantProp> participantProps = Participant.getAll(client,
-    // ishaKriya18Aug2013.programId, User.SUPER_USER);
-    //
-    // assertEquals(1, participantProps.size());
-    // ParticipantProp participantProp = participantProps.get(0);
-    //
-    // assertEquals(1, participantProp.participantId); // first participant
-    // // should have id 1
-    //
-    // assertEquals("Ramakrishnan", participantProp.contactDetail.firstName);
-    // assertEquals(null, participantProp.contactDetail.lastName);
-    // assertEquals(null, participantProp.contactDetail.mobilePhone);
-    // assertEquals(1, participantProp.memberId); // first member
-    // assertEquals(ishaKriya18Aug2013.programId, participantProp.programId);
-    //
-    // // should be able to get the associated member
-    // MemberProp memberProp = Member.safeGet(client,
-    // participantProp.memberId, User.SUPER_USER).toProp();
-    // assertEquals(participantProp.memberId, memberProp.memberId);
-    // assertEquals(participantProp.contactDetail.firstName,
-    // memberProp.contact.firstName);
-    // assertEquals(null, memberProp.contact.lastName);
-    // assertEquals("oasisram@gmail.com", memberProp.contact.email);
-    // assertTrue(memberProp.programIds.contains(ishaKriya18Aug2013.programId));
-    // assertTrue(memberProp.programTypeIds
-    // .contains(ishaKriyaTeacherLed.programTypeId));
-    // assertTrue(memberProp.practiceIds.contains(ishaKriya.practiceId));
-    //
-    // // add the same person as participant for another program. This time he
-    // specifies
-    // //his contact number and house address
-    // c1.mobilePhone = "+6591846937";
-    // c1.homeAddress.address = "Block 292B, #09-210, Compassvale Street";
-    // c1.homeAddress.country = "Singapore";
-    // uploadReportProp = Participant.uploadAll(client, contactDetailProps,
-    // ishaKriya25Aug2013.programId, false, User.SUPER_USER);
-    // assertEquals(1, uploadReportProp.numParticipants);
-    // assertEquals(1, uploadReportProp.existingMemberEmails);
-    // assertEquals(0, uploadReportProp.newMemberEmails);
-    //
-    // // should be tagged to the same member
-    // participantProps = Participant.getAll(client,
-    // ishaKriya25Aug2013.programId, User.SUPER_USER);
-    //
-    // assertEquals(1, participantProps.size());
-    // participantProp = participantProps.get(0);
-    //
-    // assertEquals(2, participantProp.participantId); // id should be sequence
-    // assertEquals("Ramakrishnan", participantProp.contactDetail.firstName);
-    // assertEquals(null, participantProp.contactDetail.lastName);
-    // assertEquals(null, participantProp.contactDetail.mobilePhone);
-    // assertEquals(1, participantProp.memberId); // same member
-    // assertEquals(ishaKriya25Aug2013.programId, participantProp.programId);
-    //
-    // // delete all participants, update participants list and upload again
-    //
-    // Participant.deleteAll(client, ishaKriya25Aug2013.programId,
-    // User.SUPER_USER);
-    //
-    // // add somebody else who has given the same email
-    // c1 = new ContactProp();
-    // c1.email = "oasisram@gmail.com";
-    // c1.firstName = "Hemamalini";
-    // c1.lastName = "Krishnamurthy";
-    // c1.mobilePhone = "+6593232152";
-    // c1.homePhone = "+6565072230";
-    // contactDetailProps.add(c1);
-    // uploadReportProp = Participant.uploadAll(client, contactDetailProps,
-    // ishaKriya25Aug2013.programId, false, User.SUPER_USER);
-    //
-    // assertEquals(2, uploadReportProp.numParticipants);
-    // assertEquals(1, uploadReportProp.existingMemberEmails);
-    // assertEquals(1, uploadReportProp.newMemberEmails);
-    //
-    // participantProps = Participant.getAll(client,
-    // ishaKriya18Aug2013.programId, User.SUPER_USER);
-    //
-    // assertEquals(3, participantProp.participantId); // id should be sequence
-    // assertEquals("Hemamalini", participantProp.contactDetail.firstName);
-    // assertEquals("Krishnamurthy", participantProp.contactDetail.lastName);
-    // assertEquals(null, participantProp.contactDetail.mobilePhone);
-    // // should be tagged to a different member
-    // assertEquals(2, participantProp.memberId); // same member
-    //
-    // memberProp = Member.safeGet(client, participantProp.memberId,
-    // User.SUPER_USER).toProp();
-    // assertEquals(participantProp.memberId, memberProp.memberId);
-    // assertEquals(participantProp.contactDetail.firstName,
-    // memberProp.contact.firstName);
-    // assertEquals("oasisram@gmail.com", memberProp.contact.email);
-    // assertTrue(memberProp.programIds.contains(ishaKriya18Aug2013.programId));
-    // assertTrue(memberProp.programTypeIds
-    // .contains(ishaKriyaTeacherLed.programTypeId));
-    // assertTrue(memberProp.practiceIds.contains(ishaKriya.practiceId));
-    //
-    // // // add same person with a typo in the name
-    // // c1 = new ContactDetailProp();
-    // // c1.email = "oasisram@gmail.com";
-    // // c1.firstName = "Ramkrishnan";
-    // // // should get linked to the same member
-    // // participantProp = Participant.createWithoutDuplicateCheck(client, c1,
-    // // ishaKriya25Aug2013.programId, User.SUPER_USER);
-    // // memberProp = Member.safeGet(client, participantProp.memberId,
-    // // User.SUPER_USER).toProp();
-    // // assertEquals(participantProp.memberId, memberProp.memberId);
-    // // assertEquals(participantProp.contactDetail.firstName,
-    // // memberProp.contact.firstName);
-    // // assertEquals("oasisram@gmail.com", memberProp.contact.email);
-    // //
-    // assertTrue(memberProp.programIds.contains(ishaKriya18Aug2013.programId));
-    // // assertTrue(memberProp.programTypeIds
-    // // .contains(ishaKriyaTeacherLed.programTypeId));
-    // // assertTrue(memberProp.practiceIds.contains(ishaKriya.practiceId));
-    //
-    // assertTrue(false);
-    // }
-
     @Test
-    public void getTest() {
-        assertEquals("force failure", true, false);
-    }
+    public void uploadAllTest() {
+        ContactProp c1 = new ContactProp();
+        c1.email = "oasisram@gmail.com";
+        c1.firstName = "Ramakrishnan";
 
-    @Test
-    public void safeGetTest() {
-        assertTrue(false);
-    }
+        List<ContactProp> contactDetailProps = new ArrayList<>();
+        contactDetailProps.add(c1);
 
-    @Test
-    public void updateTest() {
-        assertTrue(false);
-    }
+        UploadReportProp uploadReportProp = Participant.uploadAll(client,
+                contactDetailProps, ishaKriya18Aug2013.programId, false, true,
+                User.SUPER_USER);
 
-    @Test
-    public void getQSMatchesTest() {
-        assertTrue(false);
-    }
+        assertEquals(1, uploadReportProp.numParticipants);
+        assertEquals(1, uploadReportProp.numNewMembers);
+        assertEquals(0, uploadReportProp.numExistingMembers);
 
-    @Test
-    public void bulkUploadTest() {
-        assertTrue(false);
-    }
+        List<ParticipantProp> participantProps = Participant.getAll(client,
+                ishaKriya18Aug2013.programId, User.SUPER_USER);
 
-    @Test
-    public void deleteTest() {
-        assertTrue(false);
+        assertEquals(1, participantProps.size());
+        ParticipantProp participantProp = participantProps.get(0);
+
+        assertEquals(1, participantProp.participantId); // first participant
+        // should have id 1
+
+        assertEquals("Ramakrishnan", participantProp.contactDetail.firstName);
+        assertEquals(null, participantProp.contactDetail.lastName);
+        assertEquals(null, participantProp.contactDetail.mobilePhone);
+        assertEquals(1, participantProp.memberId); // first member
+        assertEquals(ishaKriya18Aug2013.programId, participantProp.programId);
+
+        // should be able to get the associated member
+        MemberProp memberProp = MemberLoader.safeGet(client,
+                participantProp.memberId, User.SUPER_USER).toProp();
+        assertEquals(participantProp.memberId, memberProp.memberId);
+        assertEquals(participantProp.contactDetail.firstName,
+                memberProp.contact.firstName);
+        assertEquals(null, memberProp.contact.lastName);
+        assertEquals("oasisram@gmail.com", memberProp.contact.email);
+        assertTrue(memberProp.programIds.contains(ishaKriya18Aug2013.programId));
+        assertTrue(memberProp.programTypeIds
+                .contains(ishaKriyaTeacherLed.programTypeId));
+        assertTrue(memberProp.practiceIds.contains(ishaKriya.practiceId));
+
+        // add the same person as participant for another program. This time he specifies
+        //his contact number and house address
+        c1.mobilePhone = "+6591846937";
+        c1.homeAddress.address = "Block 292B, #09-210, Compassvale Street";
+        c1.homeAddress.country = "Singapore";
+        c1.firstName = "Ramkrishnan"; //typo in first name
+        uploadReportProp = Participant.uploadAll(client, contactDetailProps,
+                ishaKriya25Aug2013.programId, false, true, User.SUPER_USER);
+        assertEquals(1, uploadReportProp.numParticipants);
+        assertEquals(1, uploadReportProp.numExistingMembers);
+        assertEquals(0, uploadReportProp.numNewMembers);
+
+        // should be tagged to the same member
+        participantProps = Participant.getAll(client,
+                ishaKriya25Aug2013.programId, User.SUPER_USER);
+
+        assertEquals(1, participantProps.size());
+        participantProp = participantProps.get(0);
+
+        assertEquals(2, participantProp.participantId); // id should be sequence
+        assertEquals("Ramkrishnan", participantProp.contactDetail.firstName);
+        assertEquals(null, participantProp.contactDetail.lastName);
+        assertEquals("+6591846937", participantProp.contactDetail.mobilePhone);
+        assertEquals(1, participantProp.memberId); // same member
+        assertEquals(ishaKriya25Aug2013.programId, participantProp.programId);
+
+        //try to upload participants again - should throw error
+        try {
+            Participant.uploadAll(client, contactDetailProps,
+                    ishaKriya25Aug2013.programId, false, true, User.SUPER_USER);
+            assertTrue(false);
+        } catch (APIException ex) {
+            assertEquals(APIResponse.Status.ERROR_RESOURCE_ALREADY_EXISTS, ex.statusCode);
+        }
+
+
+        // delete all participants, update participants list and upload again
+
+        Participant.deleteAll(client, ishaKriya25Aug2013.programId,
+                User.SUPER_USER);
+
+        // add somebody else who has given the same email
+        c1 = new ContactProp();
+        c1.email = "oasisram@gmail.com";
+        c1.firstName = "Hemamalini";
+        c1.lastName = "Krishnamurthy";
+        c1.mobilePhone = "+6593232152";
+        c1.homePhone = "+6565072230";
+        c1.homeAddress.country = "Singapore";
+        contactDetailProps.add(c1);
+        uploadReportProp = Participant.uploadAll(client, contactDetailProps,
+                ishaKriya25Aug2013.programId, false, true, User.SUPER_USER);
+
+        assertEquals(2, uploadReportProp.numParticipants);
+        assertEquals(1, uploadReportProp.numExistingMembers);
+        assertEquals(1, uploadReportProp.numNewMembers);
+
+        participantProps = Participant.getAll(client,
+                ishaKriya25Aug2013.programId, User.SUPER_USER);
+
+        assertEquals(2, participantProps.size());
     }
 }

@@ -90,9 +90,9 @@ public class ProgramProp implements Comparable<ProgramProp> {
         return sessionProps;
     }
 
-    public int getNumSessions() {
-        // TODO: this is buggy, fix it
-        return endYYYYMMDD - startYYYYMMDD + 1;
+    public int getNumSessions()  {
+
+        return DateUtils.getNumDays(startYYYYMMDD, endYYYYMMDD) + 1;
     }
 
     public void ensureValidSessionDate(int sessionDateYYYYMMDD) {

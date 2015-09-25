@@ -3,15 +3,9 @@ package crmdna.common.contact;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 
-public class ContactDetailTest {
-
-    @Test
-    public void ensureValidTest() {
-        assertTrue(false);
-    }
+public class ContactPropTest {
 
     @Test
     public void getNameTest() {
@@ -34,26 +28,10 @@ public class ContactDetailTest {
 
     @Test
     public void getPhoneNosTest() {
-        assertTrue(false);
-    }
+        ContactProp c = new ContactProp();
+        c.homePhone = "6565387800";
+        c.mobilePhone = "6593839390";
 
-    @Test
-    public void ensureFirstNameAndValidEmailSpecified() {
-        assertTrue(false);
-    }
-
-    @Test
-    public void getContactDetailFromMap() {
-        assertTrue(false);
-    }
-
-    @Test
-    public void getContactDetailsFromListOfMap() {
-        assertTrue(false);
-    }
-
-    @Test
-    public void validateTest() {
-        assertTrue(false);
+        assertEquals("6593839390 6565387800", c.getPhoneNos());
     }
 }

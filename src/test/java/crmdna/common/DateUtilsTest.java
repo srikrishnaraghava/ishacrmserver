@@ -6,6 +6,7 @@ import crmdna.common.api.APIResponse.Status;
 import org.junit.Test;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import static crmdna.common.TestUtil.ensureResourceIncorrectException;
 import static org.junit.Assert.assertEquals;
@@ -33,22 +34,22 @@ public class DateUtilsTest {
         // same start and end date
         start = 20130201;
         end = 20130201;
-        assertEquals("1 Feb 13", DateUtils.getDurationAsString(start, end));
+        assertEquals("1 Feb '13", DateUtils.getDurationAsString(start, end));
 
         // same month and year
         start = 20130201;
         end = 20130204;
-        assertEquals("1 - 4 Feb 13", DateUtils.getDurationAsString(start, end));
+        assertEquals("1 - 4 Feb '13", DateUtils.getDurationAsString(start, end));
 
         // different month same year
         start = 20130227;
         end = 20130304;
-        assertEquals("27 Feb - 4 Mar 13", DateUtils.getDurationAsString(start, end));
+        assertEquals("27 Feb - 4 Mar '13", DateUtils.getDurationAsString(start, end));
 
         // different year
         start = 20131227;
         end = 20140104;
-        assertEquals("27 Dec - 4 Jan 14", DateUtils.getDurationAsString(start, end));
+        assertEquals("27 Dec - 4 Jan '14", DateUtils.getDurationAsString(start, end));
 
         start = 2013123;
         end = 2013125;
@@ -144,5 +145,38 @@ public class DateUtilsTest {
             }
         });
 
+    }
+
+    @Test
+    public void getNumDaysTest() {
+        final int MS_IN_A_DAY = 86400 * 1000;
+
+        Date now = new Date();
+        Date nowMinus1Day = new Date(now.getTime() - MS_IN_A_DAY);
+
+        assertEquals(1, DateUtils.getNumDays(nowMinus1Day, now));
+    }
+
+    @Test
+    public void getNumDaysTest2() {
+        assertEquals(0, DateUtils.getNumDays(20150925, 20150925));
+
+        assertEquals(2, DateUtils.getNumDays(20150930, 20151002));
+        assertEquals(34, DateUtils.getNumDays(20151230, 20160202));
+
+        //exception if format invalid
+        try {
+            DateUtils.getNumDays(20151325, 20150925);
+            assertTrue(false);
+        } catch (APIException ex) {
+            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+        }
+
+        try {
+            DateUtils.getNumDays(20151225, 20150931);
+            assertTrue(false);
+        } catch (APIException ex) {
+            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+        }
     }
 }

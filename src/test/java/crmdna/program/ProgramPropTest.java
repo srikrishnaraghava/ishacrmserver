@@ -8,6 +8,7 @@ import crmdna.venue.Venue.VenueProp;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -45,7 +46,16 @@ public class ProgramPropTest {
 
     @Test
     public void getNumSessionsTest() {
-        assertTrue(false);
+        //1 day program
+        ProgramProp programProp = new ProgramProp();
+        programProp.startYYYYMMDD = 20150925;
+        programProp.endYYYYMMDD = 20150925;
+        assertEquals(1, programProp.getNumSessions());
+
+        //2 day program like shambhavi
+        programProp.startYYYYMMDD = 20150930;
+        programProp.endYYYYMMDD = 20151001;
+        assertEquals(2, programProp.getNumSessions());
     }
 
     @Test
@@ -94,17 +104,27 @@ public class ProgramPropTest {
     }
 
     @Test
-    public void populateNameTest() {
-        assertTrue(false);
-    }
-
-    @Test
     public void asMapTest() {
-        assertTrue(false);
-    }
+        ProgramProp programProp = new ProgramProp();
+        programProp.programTypeProp = new ProgramTypeProp();
+        programProp.programTypeProp.displayName = "Shambhavi (2 day)";
 
-    @Test
-    public void getNameWOVenueTest() {
-        assertTrue(false);
+        programProp.startYYYYMMDD = 20150925;
+        programProp.endYYYYMMDD = 20150925;
+
+        programProp.venueProp = new VenueProp();
+        programProp.venueProp.displayName = "GIIS";
+        programProp.venueProp.address = "GIIS queenstown";
+
+        programProp.groupProp = new GroupProp();
+        programProp.groupProp.displayName = "Isha Singapore";
+
+        Map<String, Object> map = programProp.asMap();
+        assertEquals(map.get("programType"), "Shambhavi (2 day)");
+        assertEquals("20150925", map.get("startDateYYYYMMDD"));
+        assertEquals("20150925", map.get("endDateYYYYMMDD"));
+        assertEquals("GIIS", map.get("venue"));
+        assertEquals("GIIS queenstown", map.get("venueFullAddress"));
+        assertEquals("Isha Singapore", map.get("groupName"));
     }
 }

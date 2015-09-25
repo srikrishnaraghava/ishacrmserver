@@ -4,6 +4,7 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.ObjectifyFilter;
 import crmdna.client.Client;
+import crmdna.common.Utils;
 import crmdna.common.Utils.Currency;
 import crmdna.common.api.APIException;
 import crmdna.common.api.APIResponse.Status;
@@ -630,14 +631,14 @@ public class ProgramTest {
         groupIds.add(innerEngineering7Day.programTypeId);
         // get all IE 7 day programs
         programProps =
-                Program.query(client, null, null, innerEngineering7DayProgramTypeId, null, null, 10);
+                Program.query(client, null, null, Utils.getSet(innerEngineering7Day.programTypeId), null, null, 10);
         assertEquals(2, programProps.size());
         assertEquals(4, programProps.get(0).programId);
         assertEquals(5, programProps.get(1).programId);
 
         // get all IE 7 day programs in Singapore
         programProps =
-                Program.query(client, null, null, innerEngineering7DayProgramTypeId, groupIds, null, 10);
+                Program.query(client, null, null, Utils.getSet(innerEngineering7Day.programTypeId), groupIds, null, 10);
         assertEquals(1, programProps.size());
         assertEquals(4, programProps.get(0).programId);
 
@@ -646,7 +647,7 @@ public class ProgramTest {
         groupIds.add(sgp.groupId);
         groupIds.add(kl.groupId);
         programProps =
-                Program.query(client, null, null, innerEngineering7DayProgramTypeId, groupIds, null, 10);
+                Program.query(client, null, null, Utils.getSet(innerEngineering7Day.programTypeId), groupIds, null, 10);
         assertEquals(2, programProps.size());
         assertEquals(4, programProps.get(0).programId);
         assertEquals(5, programProps.get(1).programId);

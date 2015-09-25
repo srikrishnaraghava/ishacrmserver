@@ -5,12 +5,14 @@ import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.googlecode.objectify.ObjectifyFilter;
 import crmdna.client.Client;
 import crmdna.common.DateUtils;
+import crmdna.common.Utils;
 import crmdna.common.api.APIException;
 import crmdna.common.api.APIResponse.Status;
 import crmdna.common.contact.Contact.Gender;
 import crmdna.common.contact.ContactProp;
 import crmdna.group.Group;
 import crmdna.group.Group.GroupProp;
+import crmdna.list.ListProp;
 import crmdna.practice.Practice;
 import crmdna.practice.Practice.PracticeProp;
 import crmdna.program.Program;
@@ -617,8 +619,23 @@ public class MemberTest {
     }
 
     @Test
-    public void rebuildTest() {
-        assertTrue(false);
+    public void removeDeadReferenceTest() {
+        MemberEntity entity = new MemberEntity();
+        entity.programIds.add(shambhavi201405.programId);
+        entity.programIds.add((long) 2003); //invalid
+
+        //should remove non-existent program ids
+        Member.removeDeadReferences(client, Utils.getList(entity));
+        assertEquals(1, entity.programIds.size());
+        assertTrue(entity.programIds.contains(shambhavi201405.programId));
+
+        ListProp listProp = crmdna.list.List.createPublic(client, sgp.groupId, "List1", User.SUPER_USER);
+        entity.listIds.add(listProp.listId);
+        entity.listIds.add((long) 3009); //invalid
+
+        Member.removeDeadReferences(client, Utils.getList(entity));
+        assertEquals(1, entity.listIds.size());
+        assertTrue(entity.listIds.contains(listProp.listId));
     }
 
     @Test
@@ -632,10 +649,12 @@ public class MemberTest {
         MemberProp sathya = new MemberProp();
         sathya.contact = new ContactProp();
         sathya.memberId = Sequence.getNext(client, SequenceType.MEMBER);
-        sathya.contact.firstName = "Sathya,";
+        sathya.contact.firstName = "Sathya";
         sathya.contact.lastName = "Thilakan";
         sathya.contact.email = "sathya.t@ishafoundation.org";
-        sathya.contact.mobilePhone = "+6593232152";
+        sathya.contact.mobilePhone = "+6598361844";
+        sathya.contact.occupation = "occupation1";
+        sathya.contact.company = "company1";
         sathya.practiceIds.add(shambhavi.practiceId);
         sathya.practiceIds.add(shoonya.practiceId);
         sathya.practiceIds.add(bsp.practiceId);
@@ -646,7 +665,9 @@ public class MemberTest {
         sowmya.contact = new ContactProp();
         sowmya.contact.firstName = "Sowmya";
         sowmya.contact.email = "sowmya@sowmya.com";
-        sowmya.contact.mobilePhone = "+6593232152";
+        sowmya.contact.mobilePhone = "+6598361844";
+        sowmya.contact.occupation = "occupation2";
+        sowmya.contact.company = "company2";
         sowmya.practiceIds.add(shambhavi.practiceId);
 
         memberProps.add(sathya);
@@ -655,13 +676,12 @@ public class MemberTest {
         String csv = Member.getCSV(client, memberProps);
         //System.out.println("csv: " + csv);
 
-        StringBuilder expected = new StringBuilder();
-        expected.append("First Name, Last Name, Email, Mobile, Home Phone, Office Phone, Shambhavi ?, Shoonya ?, BSP ?, Samyama ?, Isha CRM Member Id\n");
-        expected.append("Sathya,Thilakan,sathya.t@ishafoundation.org,+6593232152,,,Yes,Yes,Yes,Yes,1\n");
-        expected.append("Sowmya,,sowmya@sowmya.com,+6593232152,,,Yes,No,No,No,2\n");
+        String[] lines = csv.split("\n");
+        assertEquals(3, lines.length);
 
-        assertEquals(expected.toString(), csv);
-
-        //todo add occupation and company name
+        assertEquals("First Name, Last Name, Email, Mobile, Home Phone, Office Phone, Occupation, "
+                + "Company Name, Programs, Practices, Member ID", lines[0]);
+        assertEquals("Sathya,Thilakan,sathya.t@ishafoundation.org,+6598361844,,,occupation1,company1,,,1", lines[1]);
+        assertEquals("Sowmya,,sowmya@sowmya.com,+6598361844,,,occupation2,company2,,,2", lines[2]);
     }
 }

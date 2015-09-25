@@ -242,7 +242,15 @@ public class UtilsTest {
 
     @Test
     public void ensureValidUrlTest() {
-        assertTrue(false);
+
+        Utils.ensureValidUrl("http://www.google.com");
+
+        try {
+            Utils.ensureValidUrl("dummy");
+            assertTrue(false);
+        } catch (APIException ex) {
+            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+        }
     }
 
     @Test
@@ -279,11 +287,6 @@ public class UtilsTest {
     }
 
     @Test
-    public void isValidPhoneNumberTest() {
-        assertTrue(false);
-    }
-
-    @Test
     public void closeEnoughTest() {
         assertFalse(Utils.closeEnough(null, null));
 
@@ -317,16 +320,6 @@ public class UtilsTest {
         assertEquals("Sathya", Utils.getFullName("Sathya", null));
         assertEquals("Thilakan", Utils.getFullName(null, "Thilakan"));
         assertEquals(null, Utils.getFullName(null, null));
-    }
-
-    @Test
-    public void toDateTest() {
-        assertTrue(false);
-    }
-
-    @Test
-    public void getNumDaysTest() {
-        assertTrue(false);
     }
 
     @Test
@@ -409,12 +402,11 @@ public class UtilsTest {
 
     @Test
     public void urlEncodeTest() {
-        assertTrue(false);
-    }
 
-    @Test
-    public void getPhoneNoErrMsgIfAnyElseNull() {
-        assertTrue(false);
+        String url = "http://www.google.com/test?key=value";
+        String expectedAfterEncoding = "http%3A%2F%2Fwww.google.com%2Ftest%3Fkey%3Dvalue";
+
+        assertEquals(expectedAfterEncoding, Utils.urlEncode(url));
     }
 
     @Test
@@ -436,12 +428,38 @@ public class UtilsTest {
 
     @Test
     public void ensureNotNullOrEmptyTest() {
-        assertTrue(false);
+
+        Utils.ensureNotNullOrEmpty("ishacrm", "no exception");
+
+        try {
+            Utils.ensureNotNullOrEmpty("", "message");
+            assertTrue(false);
+        } catch (APIException ex) {
+            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+            assertEquals("message", ex.userFriendlyMessage);
+        }
+
+        try {
+            Utils.ensureNotNullOrEmpty(null, "message");
+            assertTrue(false);
+        } catch (APIException ex) {
+            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+            assertEquals("message", ex.userFriendlyMessage);
+        }
     }
 
     @Test
     public void ensureNonZeroTest() {
-        assertTrue(false);
+
+        Utils.ensureNonZero(100, "no exception");
+
+        try {
+            Utils.ensureNonZero(0, "message");
+            assertTrue(false);
+        } catch (APIException ex) {
+            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+            assertEquals("message", ex.userFriendlyMessage);
+        }
     }
 
     @Test
@@ -467,20 +485,6 @@ public class UtilsTest {
         assertEquals("+6593232152", Utils.sanitizePhoneNo("065(932)32152", "sgp"));
 
         assertEquals("+971507000000", Utils.sanitizePhoneNo("971507000000", "sgp"));
-
-        String message = Utils.getPhoneNoErrMsgIfAnyElseNull("+971507000000", "sgp");
-        assertEquals("dummy", message);
-
-    }
-
-    @Test
-    public void sanitizeEmailTest() {
-        assertTrue(false);
-    }
-
-    @Test
-    public void toUserFriendlyStringTest() {
-        assertTrue(false);
     }
 
     @Test

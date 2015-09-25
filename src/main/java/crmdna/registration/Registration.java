@@ -106,7 +106,7 @@ public class Registration {
         Date current = new Date();
         Date end = DateUtils.toDate(programProp.endYYYYMMDD);
 
-        if (Utils.getNumDays(end, current) > 30)
+        if (DateUtils.getNumDays(end, current) > 30)
             throw new APIException().status(Status.ERROR_OPERATION_NOT_ALLOWED).message(
                     "Registration not allowed as current date [" + currentYYYYMMDD
                             + "] is more than 30 days after the program end date [" + programProp.endYYYYMMDD
