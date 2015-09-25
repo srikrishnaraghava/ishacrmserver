@@ -156,4 +156,27 @@ public class DateUtilsTest {
 
         assertEquals(1, DateUtils.getNumDays(nowMinus1Day, now));
     }
+
+    @Test
+    public void getNumDaysTest2() {
+        assertEquals(0, DateUtils.getNumDays(20150925, 20150925));
+
+        assertEquals(2, DateUtils.getNumDays(20150930, 20151002));
+        assertEquals(34, DateUtils.getNumDays(20151230, 20160202));
+
+        //exception if format invalid
+        try {
+            DateUtils.getNumDays(20151325, 20150925);
+            assertTrue(false);
+        } catch (APIException ex) {
+            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+        }
+
+        try {
+            DateUtils.getNumDays(20151225, 20150931);
+            assertTrue(false);
+        } catch (APIException ex) {
+            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+        }
+    }
 }

@@ -353,6 +353,7 @@ public class GroupTest {
             assertEquals(Status.ERROR_RESOURCE_NOT_FOUND, ex.statusCode);
         }
 
+        //this test will fail when not connected to internet
         Group.setMandrillApiKey(client, sgp.groupId, "SGDxaNgCVEF6trBYKtugag",
                 User.SUPER_USER);
         EmailConfig emailConfig = Group.getEmailConfig(client, sgp.groupId,

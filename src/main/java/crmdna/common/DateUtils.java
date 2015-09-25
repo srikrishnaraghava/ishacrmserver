@@ -3,6 +3,7 @@ package crmdna.common;
 import crmdna.common.api.APIException;
 import crmdna.common.api.APIResponse.Status;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -466,9 +467,26 @@ public class DateUtils {
     public static int getNumDays(Date former, Date later) {
         final int MILLI_SECONDS_IN_A_DAY = 3600 * 24 * 1000;
 
-        int numDays = (int) (later.getTime() - former.getTime()) / MILLI_SECONDS_IN_A_DAY;
+        int numDays = (int) ((later.getTime() - former.getTime()) / MILLI_SECONDS_IN_A_DAY);
 
         return numDays;
+    }
+
+    public static int getNumDays(int yyyyMMDDFormer, int yyyyMMDDLater) {
+
+        ensureFormatYYYYMMDD(yyyyMMDDFormer);
+        ensureFormatYYYYMMDD(yyyyMMDDLater);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+
+        try {
+            Date former = format.parse(yyyyMMDDFormer + "");
+
+            Date later = format.parse(yyyyMMDDLater + "");
+            return DateUtils.getNumDays(former, later);
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public enum Month {

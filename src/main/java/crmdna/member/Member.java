@@ -870,7 +870,7 @@ public class Member {
         ofy(client).save().entities(memberEntities);
     }
 
-    private static void removeDeadReferences(String client, List<MemberEntity> memberEntities) {
+    static void removeDeadReferences(String client, List<MemberEntity> memberEntities) {
 
         Client.ensureValid(client);
         ensureNoNullElement(memberEntities);
@@ -1042,7 +1042,7 @@ public class Member {
             sb.append(Utils.csvEncode(sbPractices.toString())).append(',');
 
             sb.append(memberProp.memberId);
-            sb.append("\r\n");
+            sb.append("\n");
         }
 
         return sb.toString();
