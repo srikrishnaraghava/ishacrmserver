@@ -722,6 +722,7 @@ public class Registration {
         msi.mailContentId = mailContentProp.mailContentId;
         msi.senderEmail = emailConfig.contactEmail;
         msi.suppressIfAlreadySent = false;
+        msi.overrideSubject = subject;
 
         Mail.send(client, msi, mailMap, User.SUPER_USER);
     }
