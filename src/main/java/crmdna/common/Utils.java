@@ -233,7 +233,7 @@ public class Utils {
 
         if (phoneNumber.charAt(0) != '+')
             throw new APIException().status(Status.ERROR_RESOURCE_INCORRECT).message(
-                    "First character of phone number should be +");
+                    "Invalid phone no [" + phoneNumber + "]. First character should be +");
 
         if (!phoneNumber.matches(phoneNumberRegex))
             throw new APIException().status(Status.ERROR_RESOURCE_INCORRECT).message(

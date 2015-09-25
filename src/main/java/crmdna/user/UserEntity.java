@@ -81,6 +81,8 @@ public class UserEntity {
             }
         }
 
+        userProp.groupName = Group.safeGet(client, userProp.groupId).toProp().displayName;
+
         return userProp;
     }
 }

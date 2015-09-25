@@ -9,11 +9,13 @@ public class UserProp {
     public String email;
 
     public long groupId;
-    public long groupName; // Dependent
     public long userId;
 
     public Set<String> clientLevelPrivileges = new TreeSet<>();
     public Map<String, Set<String>> groupLevelPrivileges = new TreeMap<>();
 
     public TreeSet<String> apps = new TreeSet<>();
+
+    // Dependents
+    public String groupName;
 }

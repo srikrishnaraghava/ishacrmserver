@@ -25,6 +25,15 @@ public class MailServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private MailContentProp sanitize(String client, HttpServletRequest request, MailContentProp mailContentProp) {
+        mailContentProp.bodyUrl =
+            request.getScheme() + "://" + request.getServerName() + ":"
+                + request.getServerPort() + "/mailContent/get?client=" + client
+                + "&mailContentId=" + mailContentProp.mailContentId;
+        mailContentProp.body = null;
+        return mailContentProp;
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
@@ -59,13 +68,9 @@ public class MailServlet extends HttpServlet {
                     MailContentProp mailContentProp =
                             MailContent.create(client, displayName, groupId, subject, bodyHtml, login);
 
-                    mailContentProp.bodyUrl =
-                            request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-                                    + "/mailContent/get?client=" + client + "&mailContentId="
-                                    + mailContentProp.mailContentId;
-
                     ServletUtils.setJson(response,
-                            new APIResponse().status(Status.SUCCESS).object(mailContentProp));
+                            new APIResponse().status(Status.SUCCESS)
+                                .object(sanitize(client, request, mailContentProp)));
 
                 } else if (action.equals("queryMailContent")) {
 
@@ -78,17 +83,19 @@ public class MailServlet extends HttpServlet {
 
                     List<MailContentProp> props = new ArrayList<>();
                     for (MailContentEntity entity : entities) {
-                        MailContentProp mailContentProp = entity.toProp();
-                        mailContentProp.bodyUrl =
-                                request.getScheme() + "://" + request.getServerName() + ":"
-                                        + request.getServerPort() + "/mailContent/get?client=" + client
-                                        + "&mailContentId=" + mailContentProp.mailContentId;
-
-                        mailContentProp.body = null;
-                        props.add(mailContentProp);
+                        props.add(sanitize(client, request, entity.toProp()));
                     }
 
                     ServletUtils.setJson(response, new APIResponse().status(Status.SUCCESS).object(props));
+
+                } else if (action.equals("getMailContent")) {
+
+                    MailContentEntity entity = MailContent.safeGet(client,
+                        ServletUtils.getLongParam(request, "mailContentId"));
+
+                    ServletUtils.setJson(response,
+                        new APIResponse().status(Status.SUCCESS)
+                            .object(sanitize(client, request, entity.toProp())));
 
                 } else if (action.equals("updateMailContent")) {
 
@@ -105,13 +112,9 @@ public class MailServlet extends HttpServlet {
                             MailContent.update(client, mailContentId, newDisplayName, newSubject, newBodyHtml,
                                     allowUpdateIfMailsSent, login);
 
-                    mailContentProp.bodyUrl =
-                            request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-                                    + "/mailContent/get?client=" + client + "&mailContentId="
-                                    + mailContentProp.mailContentId;
-
                     ServletUtils.setJson(response,
-                            new APIResponse().status(Status.SUCCESS).object(mailContentProp));
+                            new APIResponse().status(Status.SUCCESS)
+                                .object(sanitize(client, request, mailContentProp)));
 
                 } else if (action.equals("sendEmailToList")) {
 
@@ -130,8 +133,7 @@ public class MailServlet extends HttpServlet {
 
                     List<SentMailEntity> sentMailEntities =
                             Mail.sendToList(client, listId, mailContentId, sender, null, login,
-                                    defaultFirstName, defaultLastName);
-
+                                defaultFirstName, defaultLastName);
 
                     List<SentMailProp> sentMailProps = new ArrayList<>();
 
@@ -140,7 +142,7 @@ public class MailServlet extends HttpServlet {
                     }
 
                     ServletUtils.setJson(response,
-                            new APIResponse().status(Status.SUCCESS).object(sentMailProps));
+                            new APIResponse().status(Status.SUCCESS).object(sentMailProps.size()));
 
                 } else if (action.equals("sendToLoggedInUser")) {
 
