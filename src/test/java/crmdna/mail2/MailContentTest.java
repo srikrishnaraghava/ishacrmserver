@@ -87,7 +87,7 @@ public class MailContentTest {
                 validUser.email);
 
         List<MailContentEntity> entities = MailContent.query(client,
-                validUser.email, null, null, User.SUPER_USER);
+                validUser.email, null, null, null, User.SUPER_USER);
 
         assertEquals(2, entities.size());
         assertEquals(octSathsang.mailContentId, entities.get(0).mailContentId);
@@ -119,7 +119,7 @@ public class MailContentTest {
 
         // only sep sathsang
         List<MailContentEntity> entities = MailContent.query(client, null, ts1,
-                ts2, validUser.email);
+                ts2, null, validUser.email);
 
         assertEquals(1, entities.size());
         assertEquals(sepSathsang.mailContentId, entities.get(0).mailContentId);
@@ -127,7 +127,7 @@ public class MailContentTest {
         assertEquals("we invite you...", entities.get(0).body);
 
         // ts2 and later. only oct sathsang
-        entities = MailContent.query(client, null, ts2, null,
+        entities = MailContent.query(client, null, ts2, null, null,
                 userWithUpdatePrivilage.email);
         assertEquals(1, entities.size());
         assertEquals(octSathsang.mailContentId, entities.get(0).mailContentId);
@@ -135,7 +135,7 @@ public class MailContentTest {
         assertEquals("we invite you...", entities.get(0).body);
 
         // between ts1 and ts3. both sathsangs
-        entities = MailContent.query(client, null, ts1, ts3,
+        entities = MailContent.query(client, null, ts1, ts3, null,
                 userWithUpdatePrivilage.email);
         assertEquals(2, entities.size());
     }

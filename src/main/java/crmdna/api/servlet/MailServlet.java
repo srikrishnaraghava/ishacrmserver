@@ -1,5 +1,6 @@
 package crmdna.api.servlet;
 
+import crmdna.common.DateUtils;
 import crmdna.common.Utils;
 import crmdna.common.api.APIResponse;
 import crmdna.common.api.APIResponse.Status;
@@ -20,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class MailServlet extends HttpServlet {
 
@@ -28,7 +30,7 @@ public class MailServlet extends HttpServlet {
     private MailContentProp sanitize(String client, HttpServletRequest request, MailContentProp mailContentProp) {
         mailContentProp.bodyUrl =
             request.getScheme() + "://" + request.getServerName() + ":"
-                + request.getServerPort() + "/mailContent/get?client=" + client
+                + request.getServerPort() + "/mailContent?client=" + client
                 + "&mailContentId=" + mailContentProp.mailContentId;
         mailContentProp.body = null;
         return mailContentProp;
@@ -74,12 +76,23 @@ public class MailServlet extends HttpServlet {
 
                 } else if (action.equals("queryMailContent")) {
 
-                    Long daysAgo = ServletUtils.getLongParam(request, "daysAgo");
-                    Long startMS = null;
-                    if (daysAgo != null)
-                        startMS = new Date().getTime() - (daysAgo * 86400 * 1000);
+                    Integer startYYYYMMDD = ServletUtils.getIntParam(request, "startYYYYMMDD");
+                    Integer endYYYYMMDD = ServletUtils.getIntParam(request, "endYYYYMMDD");
 
-                    List<MailContentEntity> entities = MailContent.query(client, null, startMS, null, login);
+                    Long startMS = null;
+                    Long endMS = null;
+
+                    if (startYYYYMMDD != null) {
+                        startMS = DateUtils.toDate(startYYYYMMDD).getTime();
+                    }
+
+                    if (endYYYYMMDD != null) {
+                        endMS = DateUtils.toDate(endYYYYMMDD).getTime();
+                    }
+
+                    Set<String> tags = ServletUtils.getStringParamsAsSet(request, "tag");
+
+                    List<MailContentEntity> entities = MailContent.query(client, null, startMS, endMS, tags, login);
 
                     List<MailContentProp> props = new ArrayList<>();
                     for (MailContentEntity entity : entities) {

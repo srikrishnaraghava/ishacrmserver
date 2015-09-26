@@ -97,7 +97,7 @@ public class ReceiptTest {
 
         try {
             MailContent.create(client, "RESERVED_RECEIPT", sgp.groupId, "RECEIPT",
-                Utils.readDataFromURL("https://ishacrmserverdev-t.appspot.com/mailContent/get?client=isha&mailContentId=86"),
+                Utils.readDataFromURL("https://ishacrmserverdev-t.appspot.com/mailContent?client=isha&mailContentId=86"),
                 User.SUPER_USER);
         } catch (Exception ex) {
 

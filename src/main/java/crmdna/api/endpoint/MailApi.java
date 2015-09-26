@@ -184,7 +184,7 @@ public class MailApi {
 
             mailContentProp.bodyUrl =
                     req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort()
-                            + "/mailContent/get?client=" + client + "&mailContentId="
+                            + "/mailContent?client=" + client + "&mailContentId="
                             + mailContentProp.mailContentId;
 
             return new APIResponse().status(Status.SUCCESS).object(mailContentProp);
@@ -229,7 +229,7 @@ public class MailApi {
 
             mailContentProp.bodyUrl =
                     req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort()
-                            + "/mailContent/get?client=" + client + "&mailContentId="
+                            + "/mailContent?client=" + client + "&mailContentId="
                             + mailContentProp.mailContentId;
 
             return new APIResponse().status(Status.SUCCESS).object(mailContentProp);
@@ -286,14 +286,14 @@ public class MailApi {
             if (dateRange != null)
                 startMS = new Date().getTime() - DateUtils.getMilliSecondsFromDateRange(dateRange);
 
-            List<MailContentEntity> entities = MailContent.query(client, owner, startMS, null, login);
+            List<MailContentEntity> entities = MailContent.query(client, owner, startMS, null, null, login);
 
             List<MailContentProp> props = new ArrayList<>();
             for (MailContentEntity entity : entities) {
                 MailContentProp mailContentProp = entity.toProp();
                 mailContentProp.bodyUrl =
                         req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort()
-                                + "/mailContent/get?client=" + client + "&mailContentId="
+                                + "/mailContent?client=" + client + "&mailContentId="
                                 + mailContentProp.mailContentId;
 
                 if (!showBody)
