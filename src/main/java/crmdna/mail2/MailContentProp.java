@@ -1,6 +1,7 @@
 package crmdna.mail2;
 
 import java.util.Date;
+import java.util.Set;
 
 
 public class MailContentProp {
@@ -14,6 +15,8 @@ public class MailContentProp {
 
     public String updatedBy;
     public Date updatedTS;
+
+    public Set<String> tags;
 
     public String bodyUrl; // used from api explorer
 }

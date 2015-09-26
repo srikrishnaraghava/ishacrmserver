@@ -286,7 +286,7 @@ public class MailApi {
             if (dateRange != null)
                 startMS = new Date().getTime() - DateUtils.getMilliSecondsFromDateRange(dateRange);
 
-            List<MailContentEntity> entities = MailContent.query(client, owner, startMS, null, login);
+            List<MailContentEntity> entities = MailContent.query(client, owner, startMS, null, null, login);
 
             List<MailContentProp> props = new ArrayList<>();
             for (MailContentEntity entity : entities) {

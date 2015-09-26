@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class MailServlet extends HttpServlet {
 
@@ -89,7 +90,9 @@ public class MailServlet extends HttpServlet {
                         endMS = DateUtils.toDate(endYYYYMMDD).getTime();
                     }
 
-                    List<MailContentEntity> entities = MailContent.query(client, null, startMS, endMS, login);
+                    Set<String> tags = ServletUtils.getStringParamsAsSet(request, "tag");
+
+                    List<MailContentEntity> entities = MailContent.query(client, null, startMS, endMS, tags, login);
 
                     List<MailContentProp> props = new ArrayList<>();
                     for (MailContentEntity entity : entities) {

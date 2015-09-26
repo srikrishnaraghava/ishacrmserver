@@ -6,6 +6,7 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Cache
@@ -30,6 +31,12 @@ public class MailContentEntity {
     @Index
     long groupId;
 
+    @Index
+    Long programTypeId;
+
+    @Index
+    Set<String> tags;
+
     public MailContentProp toProp() {
         MailContentProp prop = new MailContentProp();
         prop.mailContentId = mailContentId;
@@ -41,6 +48,8 @@ public class MailContentEntity {
         prop.updatedBy = owner;
         prop.updatedTS = new Date(updatedMS);
         prop.groupId = groupId;
+
+        prop.tags = tags;
 
         return prop;
     }

@@ -14,6 +14,7 @@ import crmdna.user.User.GroupLevelPrivilege;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import static crmdna.common.AssertUtils.ensure;
 import static crmdna.common.AssertUtils.ensureNotNull;
@@ -104,7 +105,7 @@ public class MailContent {
     }
 
     public static List<MailContentEntity> query(String client, String owner, Long startMS,
-                                                Long endMS, String login) {
+                                                Long endMS, Set<String> tags, String login) {
 
         Client.ensureValid(client);
         User.ensureValidUser(client, login);
@@ -121,9 +122,11 @@ public class MailContent {
 
         q = q.order("-updatedMS");
 
-        List<MailContentEntity> entities = q.list();
+        if (tags != null) {
+            q = q.filter("tags in", tags);
+        }
 
-        return entities;
+        return q.list();
     }
 
     public static MailContentProp update(String client, long mailContentId, String newDisplayName,
@@ -231,5 +234,10 @@ public class MailContent {
 
     public enum ReservedMailContentName {
         RESERVED_EMAIL_VERIFICATION, RESERVED_PASSWORD_CHANGE, RESERVED_PASSWORD_RESET, RESERVED_REGISTRATION_CONFIRMATION, RESERVED_SUBSCRIPTION_PURCHASE, RESERVED_RECEIPT
+    }
+
+    public enum MailContentTag {
+        NURTURE,
+        REGIGISTRATION
     }
 }
