@@ -5,14 +5,17 @@ import java.util.Date;
 
 public class MailScheduleQueryCondition {
 
-    public long mailContentId;
+    public Long mailContentId;
 
-    public String owner;
+    public String userEmail;
 
-    public long groupId;
+    public Long groupId;
 
     public Date scheduledTimeStart;
     public Date scheduledTimeEnd;
 
-    public boolean sendAttempted;
+    public Boolean sendAttempted;
+    public Long listId;
+    public Long programId;
+    public String senderEmail;
 }

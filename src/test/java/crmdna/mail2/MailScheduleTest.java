@@ -97,6 +97,7 @@ public class MailScheduleTest {
         datastoreHelper.tearDown();
     }
 
+
     /*
     @Test(expected = APIException.class)
     public void cannotScheduleEmailForInvalidClient() {
@@ -113,7 +114,7 @@ public class MailScheduleTest {
                     newsletterListSgp.listId, "Isha", "Isha", validUser.email);
             assertTrue(false);
         } catch (APIException ex) {
-            assertEquals(Status.ERROR_INSUFFICIENT_PERMISSION, ex.statusCode);
+            assertEquals(APIResponse.Status.ERROR_INSUFFICIENT_PERMISSION, ex.statusCode);
         }
     }
 
@@ -125,7 +126,7 @@ public class MailScheduleTest {
                     newsletterListSgp.listId, "Isha", "Isha", User.SUPER_USER);
             assertTrue(false);
         } catch (APIException ex) {
-            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+            assertEquals(APIResponse.Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
         }
     }
 
@@ -138,7 +139,7 @@ public class MailScheduleTest {
                     invalidListId, "Isha", "Isha", User.SUPER_USER);
             assertTrue(false);
         } catch (APIException ex) {
-            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+            assertEquals(APIResponse.Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
         }
     }
 
@@ -154,7 +155,7 @@ public class MailScheduleTest {
                     listProp.listId, "Isha", "Isha", User.SUPER_USER);
             assertTrue(false);
         } catch (APIException ex) {
-            assertEquals(Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
+            assertEquals(APIResponse.Status.ERROR_RESOURCE_INCORRECT, ex.statusCode);
         }
     }
 
@@ -206,7 +207,7 @@ public class MailScheduleTest {
 
 
     @Test
-    public void canCancelOnesOwnScheduledEmail() {
+    public void userWithPermissionCanDeleteScheduledEmail() {
         Date after24Hours = new Date(new Date().getTime() + 86400 * 1000);
         MailScheduleProp mailScheduleProp = MailSchedule.create(client, newsletter.mailContentId, after24Hours,
                 newsletterListSgp.listId, "Isha", "Isha", userWithSgpEmailPrivilage.email);
@@ -216,56 +217,6 @@ public class MailScheduleTest {
 
         mailScheduleProp = MailSchedule.safeGet(client, mailScheduleProp.mailScheduleId);
         assertTrue(mailScheduleProp.cancelled);
-    }
-
-    @Test
-    public void canUndoCancelOnesOwnScheduledEmail() {
-        Date after24Hours = new Date(new Date().getTime() + 86400 * 1000);
-        MailScheduleProp mailScheduleProp = MailSchedule.create(client, newsletter.mailContentId, after24Hours,
-                newsletterListSgp.listId, "Isha", "Isha", userWithSgpEmailPrivilage.email);
-        assertEquals(1, mailScheduleProp.mailScheduleId);
-
-        MailSchedule.cancel(client, mailScheduleProp.mailScheduleId, userWithSgpEmailPrivilage.email);
-
-        mailScheduleProp = MailSchedule.safeGet(client, mailScheduleProp.mailScheduleId);
-        assertTrue(mailScheduleProp.cancelled);
-
-        MailSchedule.undoCancel(client, mailScheduleProp.mailScheduleId, userWithSgpEmailPrivilage.email);
-        mailScheduleProp = MailSchedule.safeGet(client, mailScheduleProp.mailScheduleId);
-        assertFalse(mailScheduleProp.cancelled);
-    }
-
-    @Test
-    public void userWOPermissionCannotCancelSomeonesScheduledEmail() {
-        Date after24Hours = new Date(new Date().getTime() + 86400 * 1000);
-        MailScheduleProp mailScheduleProp = MailSchedule.create(client, newsletter.mailContentId, after24Hours,
-                newsletterListSgp.listId, "Isha", "Isha", userWithSgpEmailPrivilage.email);
-        assertEquals(1, mailScheduleProp.mailScheduleId);
-
-        try {
-            MailSchedule.cancel(client, mailScheduleProp.mailScheduleId, validUser.email);
-            assertTrue(false);
-        } catch (APIException ex) {
-            assertEquals(Status.ERROR_INSUFFICIENT_PERMISSION, ex.statusCode);
-        }
-    }
-
-    @Test
-    public void userWithPermissionCanCancelSomeonesScheduledEmail() {
-        Date after24Hours = new Date(new Date().getTime() + 86400 * 1000);
-        MailScheduleProp mailScheduleProp = MailSchedule.create(client, newsletter.mailContentId, after24Hours,
-                newsletterListSgp.listId, "Isha", "Isha", userWithSgpEmailPrivilage.email);
-        assertEquals(1, mailScheduleProp.mailScheduleId);
-
-        MailSchedule.cancel(client, mailScheduleProp.mailScheduleId, userWithUpdatePrivilage.email);
-
-        mailScheduleProp = MailSchedule.safeGet(client, mailScheduleProp.mailScheduleId);
-        assertTrue(mailScheduleProp.cancelled);
-    }
-
-    @Test
-    public void cannotCancelIfAlreadyPickedUpForSending() {
-        assertTrue(false);
     }
 
     @Test
@@ -284,12 +235,7 @@ public class MailScheduleTest {
     }
 
     @Test
-    public void notSentIfCancelled() {
-        assertTrue(false);
-    }
-
-    @Test
-    public void sentAtScheduledTimeIfNotCancelled() throws InterruptedException {
+    public void sentAtScheduledTime() throws InterruptedException {
         Date after10Ms = new Date(new Date().getTime() + 10);
         MailScheduleProp mailScheduleProp = MailSchedule.create(client, newsletter.mailContentId, after10Ms,
                 newsletterListSgp.listId, "Isha", "Isha", userWithSgpEmailPrivilage.email);
@@ -318,6 +264,5 @@ public class MailScheduleTest {
     public void reportSentToOwnerAfterError() {
         assertTrue(false);
     }
-
     */
 }

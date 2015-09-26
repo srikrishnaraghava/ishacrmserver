@@ -1,33 +1,33 @@
 package crmdna.mail2;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 
 public class MailScheduleProp {
 
-    public long mailScheduleId;
+    long mailScheduleId;
 
-    public long mailContentId;
+    long mailContentId;
 
-    public String subject;
+    long listId;
 
-    public Set<Long> listIds = new HashSet<>();
+    Long programId;
 
-    public String owner;
+    String defaultFirstName;
+    String defaultLastName;
 
-    public long groupId;
+    String userEmail;
 
-    public Date scheduledTime;
+    long groupId;
 
-    public boolean sendAttempted;
+    String senderEmail;
 
-    public Date sendAttemptedTime;
+    Date scheduledTime;
 
-    public Boolean sendSuccess;
+    boolean sendAttempted;
 
-    public String failureReason;
+    Date sendAttemptedTime;
 
-    public boolean cancelled;
+    Boolean sendSuccess;
+
+    String failureReason;
 }
