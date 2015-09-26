@@ -13,8 +13,6 @@ public class MemberQueryCondition {
     public Set<Long> practiceIds = new HashSet<>();
     public Set<Long> programTypeIds = new HashSet<>();
     public Boolean hasAccount;
-    public Set<Long> subscribedListIds = new HashSet<>();
-    public Set<Long> unsubscribedListIds = new HashSet<>();
     public Set<Long> subscribedGroupIds = new HashSet<>();
     public Set<Long> unsubscribedGroupIds = new HashSet<>();
     public Set<Long> listIds = new HashSet<>();

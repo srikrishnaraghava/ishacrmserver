@@ -1,6 +1,9 @@
 package crmdna.mail2;
 
+import crmdna.common.StackTraceElementProp;
+
 import java.util.Date;
+import java.util.List;
 
 public class MailScheduleProp {
 
@@ -30,4 +33,6 @@ public class MailScheduleProp {
     Boolean sendSuccess;
 
     String failureReason;
+    public int numRecipients;
+    public List<StackTraceElementProp> stackTraceElementProps;
 }

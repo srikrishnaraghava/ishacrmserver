@@ -843,6 +843,28 @@ public class Utils {
         return builder.toString();
     }
 
+    public static List<StackTraceElementProp> getStackTrace(Throwable throwable) {
+        ensureNotNull(throwable, "throwable is null");
+        ensureNotNull(throwable.getStackTrace(), "stack trace is null");
+
+        List<StackTraceElementProp> stackTrace = new ArrayList<>(throwable.getStackTrace().length);
+
+        for (int i = 0; i < throwable.getStackTrace().length; i++) {
+            StackTraceElement element = throwable.getStackTrace()[i];
+
+            StackTraceElementProp prop = new StackTraceElementProp();
+            prop.className = element.getClassName();
+            prop.fileName = element.getFileName();
+            prop.isNativeMethod = element.isNativeMethod();
+            prop.lineNo = element.getLineNumber();
+            prop.methodName = element.getMethodName();
+
+            stackTrace.add(prop);
+        }
+
+        return stackTrace;
+    }
+
     public static <T> Iterable<T> safe(Iterable<T> iterable) {
         return iterable == null ? Collections.<T>emptyList() : iterable;
     }

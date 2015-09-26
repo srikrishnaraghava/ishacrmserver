@@ -21,6 +21,8 @@ public class SentMailEntity {
     String email;
     @Index
     long mailContentId;
+    @Index(IfNotNull.class)
+    Long mailScheduldId;
     String from;
     Long sendMS;
     @Index(IfTrue.class)

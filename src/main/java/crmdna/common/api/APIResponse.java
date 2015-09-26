@@ -1,5 +1,7 @@
 package crmdna.common.api;
 
+import crmdna.common.StackTraceElementProp;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

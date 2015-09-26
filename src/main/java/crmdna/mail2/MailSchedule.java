@@ -2,6 +2,7 @@ package crmdna.mail2;
 
 import com.googlecode.objectify.cmd.Query;
 import crmdna.client.Client;
+import crmdna.common.Utils;
 import crmdna.common.api.APIException;
 import crmdna.common.api.APIResponse;
 import crmdna.group.Group;
@@ -15,7 +16,6 @@ import crmdna.user.User.GroupLevelPrivilege;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import static crmdna.common.AssertUtils.*;
@@ -55,6 +55,8 @@ public class MailSchedule {
 
         ensureNotNullNotEmpty(msi.senderEmail, "senderEmail not specified");
         Group.safeGetSenderNameFromEmail(client, listProp.groupId, msi.senderEmail);
+
+        //todo - check if reserved mail contents are present
 
         MailScheduleEntity mailScheduleEntity = new MailScheduleEntity();
         mailScheduleEntity.mailScheduleId = Sequence.getNext(client, SequenceType.MAIL_SCHEDULE);
@@ -171,19 +173,43 @@ public class MailSchedule {
         ensureEqual(1, entities.size(),
                 "MailScheduleEntity query fetched [" + entities.size() + "] entities but expected 1");
 
-        MailScheduleEntity entity = entities.get(0);
+        MailScheduleEntity mse = entities.get(0);
 
         MailSendInput msi = new MailSendInput();
         msi.createMember = false;
-        msi.groupId = entity.groupId;
+        msi.groupId = mse.groupId;
         msi.isTransactionEmail = false;
-        msi.mailContentId = entity.mailContentId;
-        msi.senderEmail = entity.senderEmail;
+        msi.mailContentId = mse.mailContentId;
+        msi.senderEmail = mse.senderEmail;
         msi.suppressIfAlreadySent = true;
-        msi.tags = new HashSet<>();
-        msi.tags.add("mailScheduleId:" + entity.mailScheduleId);
+        msi.mailScheduleId = mse.mailScheduleId;
 
+        MemberQueryCondition mqc = new MemberQueryCondition();
+        mqc.listIds.add(mse.listId);
+        if (mse.programId != null) {
+            mqc.programIds.add(mse.programId);
+        }
 
+        MailMap mailMap = MailMapFactory.getFromMemberQueryCondition(mqc, mse.groupId, mse.defaultFirstName,
+                mse.defaultLastName, mse.userEmail);
 
+        mse.sendAttempted = true;
+        mse.sendAttemptedTimeMs = System.currentTimeMillis();
+
+        try {
+            List<SentMailEntity> sentMailEntities = Mail.send(client, msi, mailMap, mse.userEmail);
+            mse.numRecipients = sentMailEntities.size();
+
+            //todo - send mail to user saying scheduled email has been sent successfully
+            //need to create a reserved mail content id
+
+        } catch (Exception ex) {
+            mse.failureReason = ex.getMessage();
+            mse.stackTraceElementProps = Utils.getStackTrace(ex);
+
+            //todo - send mail to user saying scheduled email has not been sent successfully
+            //need to create a reserved mail content id
+            //attach stack trace
+        }
     }
 }

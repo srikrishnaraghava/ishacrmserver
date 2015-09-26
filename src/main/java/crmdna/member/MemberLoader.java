@@ -309,12 +309,6 @@ public class MemberLoader {
         if (null != condition.hasAccount)
             q = q.filter("hasAccount", condition.hasAccount);
 
-        if ((null != condition.subscribedListIds) && !condition.subscribedListIds.isEmpty())
-            q = q.filter("subscribedListIds in", condition.subscribedListIds);
-
-        if ((null != condition.unsubscribedListIds) && !condition.unsubscribedListIds.isEmpty())
-            q = q.filter("unsubscribedListIds in", condition.unsubscribedListIds);
-
         if ((null != condition.listIds) && !condition.listIds.isEmpty())
             q = q.filter("listIds in", condition.listIds);
 

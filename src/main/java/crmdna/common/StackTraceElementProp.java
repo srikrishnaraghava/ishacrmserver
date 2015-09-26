@@ -1,4 +1,4 @@
-package crmdna.common.api;
+package crmdna.common;
 
 public class StackTraceElementProp {
     public String methodName;

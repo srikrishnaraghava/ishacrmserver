@@ -14,4 +14,5 @@ public class MailSendInput {
     public boolean createMember;
     public String overrideSubject;
     public Set<String> tags;
+    public Long mailScheduleId;
 }

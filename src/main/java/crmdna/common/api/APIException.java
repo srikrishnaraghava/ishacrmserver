@@ -1,5 +1,6 @@
 package crmdna.common.api;
 
+import crmdna.common.Utils;
 import crmdna.common.api.APIResponse.Status;
 
 @SuppressWarnings("serial")
@@ -38,7 +39,7 @@ public class APIException extends RuntimeException {
         resp.userFriendlyMessage = userFriendlyMessage;
         resp.object = object;
 
-        resp.stackTrace = APIUtils.getStackTrace(this);
+        resp.stackTrace = Utils.getStackTrace(this);
 
         return resp;
     }

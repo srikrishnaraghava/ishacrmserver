@@ -329,6 +329,7 @@ public class Mail {
             sentMailEntity.from = msi.senderEmail;
             sentMailEntity.tagSetId = tagSetId;
             sentMailEntity.mailContentId = msi.mailContentId;
+            sentMailEntity.mailScheduldId = msi.mailScheduleId;
 
             sentMailEntities.add(sentMailEntity);
         }
